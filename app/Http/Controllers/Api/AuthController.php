@@ -47,12 +47,12 @@ class AuthController extends Controller
                 'email' => 'required|email|unique:users',
                 'password' => 'required|min:8',
             ]);
-    
+
             if ($validator->fails()) {
                 $this->errors = $validator->errors();
                 return $this->response();
             }
-            
+
             $user=new User();
             $user->password = bcrypt($request->password);
         }
