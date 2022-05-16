@@ -6,7 +6,7 @@
         <div class="row">
           <div class="col-md-12">
             <div class="card-box">
-              <div class="header-title mb-4 text-left">Create Post</div>
+              <div class="header-title mb-4 text-left">edit Post</div>
               <form @submit="onSubmit" action="" id="register" method="POST">
                 <div class="form-group">
                   <label for="">Name</label>
@@ -48,6 +48,19 @@
 
                   <div class="alert alert-danger" v-if="errors.description">
                     {{ errors.description }}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="">Short Description</label>
+                  <ckeditor
+                    :editor="editor"
+                    name="short_description"
+                    id="short_description"
+                    v-model="short_description"
+                  ></ckeditor>
+
+                  <div class="alert alert-danger" v-if="errors.short_description">
+                    {{ errors.short_description }}
                   </div>
                 </div>
 
@@ -95,17 +108,16 @@
                     {{ errors.meta_keywords }}
                   </div>
                 </div>
-                <div class="form-check">
+                 <div class="form-group">
+                <label>Order</label>
                   <input
-                    type="checkbox"
-                    class="form-check-input"
-                    name="top"
-                    id="top"
-                    v-model="top"
-                    true-value="1"
-                    false-value="0"
+                    type="number"
+                    class="form-control"
+                    name="order"
+                    id="order"
+                    v-model="order"
                   />
-                  <label class="form-check-label" for="top">Shop Top</label>
+
                 </div>
 
                 <div class="form-group">
@@ -126,7 +138,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary m-auto">Register</button>
+                  <button type="submit" class="btn btn-primary m-auto">Update</button>
                 </div>
               </form>
             </div>
@@ -141,23 +153,24 @@
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import PostService from "../../../services/post";
 export default {
-  name: "PostAdd",
+  name: "PostEdit",
   beforeCreate() {
     this.id = this.$route.params.id;
     PostService.get(this.id)
       .then((response) => {
         if (response.data.status) {
           // console.log(response.data.data.category);
-          this.id = response.data.data.category.id;
-          this.name = response.data.data.category.name;
-          this.image= response.data.data.category.image;
-          this.imagePreview = response.data.data.category.imageurl;
-          this.description = response.data.data.category.description;
-          this.meta_title = response.data.data.category.meta_title;
-          this.meta_description = response.data.data.category.meta_description;
-          this.meta_keywords = response.data.data.category.meta_keywords;
-          this.top = response.data.data.category.top;
-          this.status = response.data.data.category.status;
+          this.id = response.data.data.post.id;
+          this.name = response.data.data.post.name;
+          this.image= response.data.data.post.image;
+          this.imagePreview = response.data.data.post.imageurl;
+          this.description = response.data.data.post.description;
+          this.short_description = response.data.data.post.short_description;
+          this.meta_title = response.data.data.post.meta_title;
+          this.meta_description = response.data.data.post.meta_description;
+          this.meta_keywords = response.data.data.post.meta_keywords;
+          this.order = response.data.data.post.order;
+          this.status = response.data.data.post.status;
           let imgset = document.getElementById("imagePreview");
           imgset.setAttribute("src", this.imagePreview);
           imgset.setAttribute("width", 50);
@@ -174,10 +187,11 @@ export default {
         name: "",
         image: "",
         description: "",
+        short_description: "",
         meta_title: "",
         meta_description: "",
         meta_keywords: "",
-        top: "",
+        order: "",
         status: "",
       },
       id: null,
@@ -186,10 +200,11 @@ export default {
       imagename: null,
       imagePreview: null,
       description: null,
+      short_description: null,
       meta_title: null,
       meta_description: null,
       meta_keywords: null,
-      top: null,
+      order: null,
       status: null,
       editor: ClassicEditor,
       editorData: "<p>Content of the editor.</p>",
@@ -208,9 +223,7 @@ export default {
     previewFile(file) {
       const reader = new FileReader();
       // const preview=document.getElementById('imagePreview');
-      reader.addEventListener(
-        "load",
-        function () {
+      reader.addEventListener("load",function () {
           // preview.src = reader.result;
           this.imagePreview = reader.result;
           // console.log(reader.result);
@@ -240,6 +253,9 @@ export default {
       if (!this.description) {
         this.errors.description = "Description is Required.";
       }
+      if (!this.short_description) {
+        this.errors.short_description = "Short Description is Required.";
+      }
       if (!this.meta_title) {
         this.errors.meta_title = "Meta Title is Required.";
       }
@@ -258,11 +274,12 @@ export default {
         formData.append("image", this.image);
         formData.append("name", this.name);
         formData.append("description", this.description);
+        formData.append("short_description", this.short_description);
         formData.append("meta_description", this.meta_description);
         formData.append("meta_keywords", this.meta_keywords);
         formData.append("meta_title", this.meta_title);
         formData.append("status", this.status);
-        formData.append("top", this.top);
+        formData.append("order", this.order);
         // formData.append("_method", "PUT");
 
         // const data = {};
@@ -271,7 +288,7 @@ export default {
         // }
         // console.log(data);
 
-        CategoryService.update(formData)
+        PostService.update(formData)
           .then((response) => {
             console.log(response);
             if (!response.data.status) {
@@ -284,6 +301,9 @@ export default {
               }
               if (response.data.errors.description) {
                 this.errors.description = response.data.errors.description;
+              }
+              if (response.data.errors.short_description) {
+                this.errors.short_description = response.data.errors.short_description;
               }
               if (response.data.errors.meta_title) {
                 this.errors.meta_title = response.data.errors.meta_title;

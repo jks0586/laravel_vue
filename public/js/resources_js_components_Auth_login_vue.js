@@ -31,6 +31,8 @@ __webpack_require__.r(__webpack_exports__);
         path: "/admin/dashboard"
       });
     }
+
+    alert('aaaaaa');
   },
   methods: {
     login: function login(e) {
@@ -83,7 +85,13 @@ __webpack_require__.r(__webpack_exports__);
               _this.errors.password = response.data.errors.password;
             }
           } else {
+            // console.log(response.data.data.user.is_admin);
             localStorage.setItem("letscms_user_token", response.data.data.token);
+
+            if (response.data.data.user.is_admin === 1) {
+              localStorage.setItem("isAdmin", response.data.data.user.is_admin);
+            }
+
             localStorage.setItem("user", response.data.data.user);
 
             _this.$swal({
@@ -220,28 +228,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
 
 /***/ }),
 
-/***/ "./resources/js/http-common.js":
-/*!*************************************!*\
-  !*** ./resources/js/http-common.js ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (axios__WEBPACK_IMPORTED_MODULE_0___default().create({
-  baseURL: "http://laravel-vue.com/api",
-  headers: {
-    "Content-type": "application/json"
-  }
-}));
-
-/***/ }),
-
 /***/ "./resources/js/services/auth.js":
 /*!***************************************!*\
   !*** ./resources/js/services/auth.js ***!
@@ -275,6 +261,27 @@ var UserService = /*#__PURE__*/function () {
     key: "login",
     value: function login(data) {
       return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post('/login', data);
+    }
+  }, {
+    key: "index",
+    value: function index(url) {
+      // alert('aaaaa');
+      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get(url);
+    }
+  }, {
+    key: "get",
+    value: function get(id) {
+      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get('/user/' + id);
+    }
+  }, {
+    key: "post",
+    value: function post(data) {
+      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post('/user', data);
+    }
+  }, {
+    key: "delete",
+    value: function _delete(id) {
+      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]('/user/' + id);
     }
   }]);
 

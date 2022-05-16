@@ -18,11 +18,19 @@ use Illuminate\Http\Request;
 $request = Request();
 
 if (!$request->is('api/*')) {
-    Route::get('/{any?}', [
-        function (Request $request) {
-            return view('welcome');
-        }
-    ])->where('any', '.*');
+    if($request->is('admin/*')){
+        Route::get('/{any?}', [
+            function (Request $request) {
+                return view('admin');
+            }
+        ])->where('any', '.*');
+    } else {
+        Route::get('/{any?}', [
+            function (Request $request) {
+                return view('front');
+            }
+        ])->where('any', '.*');
+    }
 }
 
 // Route::get('/', function () {

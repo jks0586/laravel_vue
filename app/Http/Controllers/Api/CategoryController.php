@@ -26,13 +26,9 @@ class CategoryController extends Controller
 
     public function list(Request $request)
     {
-        
+
         $categories = Category::all();
         return response($categories);
-        // print_r($categories);
-        // $this->data['categories'] = $categories;
-        // return $this->response();
-        // return response($categories);
 
     }
 

@@ -18,12 +18,13 @@ class CreatePostsTable extends Migration
             $table->string('name',255);
             $table->string('image');
             $table->text('description');
-            $table->text('category_id');
+            $table->text('short_description');
+            $table->text('category_id')->nullable();
             $table->string('meta_title',255);
             $table->string('meta_description',255);
             $table->string('meta_keywords',255);
             $table->enum('status', ['0', '1']);
-            $table->integer('order');
+            $table->integer('order')->nullable();
             $table->timestamps();
         });
     }

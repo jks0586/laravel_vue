@@ -59,8 +59,8 @@ var split = __webpack_require__(/*! lodash/split */ "./node_modules/lodash/split
         label: "Name",
         field: "name"
       }, {
-        label: "Description",
-        field: "description"
+        label: "Short Description",
+        field: "short_description"
       }, {
         label: "Image",
         field: "image"
@@ -288,7 +288,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(item.name), 1
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
-      innerHTML: item.description
+      innerHTML: item.short_description
     }, null, 8
     /* PROPS */
     , _hoisted_11), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
@@ -327,29 +327,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* STABLE_FRAGMENT */
   );
 }
-
-/***/ }),
-
-/***/ "./resources/js/http-common.js":
-/*!*************************************!*\
-  !*** ./resources/js/http-common.js ***!
-  \*************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (axios__WEBPACK_IMPORTED_MODULE_0___default().create({
-  baseURL: "http://laravel-vue.com/api",
-  headers: {
-    "Content-type": "application/json"
-  }
-}));
 
 /***/ }),
 
@@ -392,6 +369,11 @@ var PostService = /*#__PURE__*/function () {
     key: "index",
     value: function index(url) {
       return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get(url);
+    }
+  }, {
+    key: "posts",
+    value: function posts() {
+      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get('/posts');
     }
   }, {
     key: "get",

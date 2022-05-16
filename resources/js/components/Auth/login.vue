@@ -58,6 +58,7 @@ export default {
       if(localStorage.getItem('letscms_user_token')){
           this.$router.push({ path: "/admin/dashboard" });
       }
+      alert('aaaaaa');
   },
   methods: {
     login(e) {
@@ -102,8 +103,13 @@ export default {
                 this.errors.password = response.data.errors.password;
               }
             } else {
+                // console.log(response.data.data.user.is_admin);
               localStorage.setItem("letscms_user_token", response.data.data.token);
+              if(response.data.data.user.is_admin===1){
+                  localStorage.setItem("isAdmin", response.data.data.user.is_admin);
+              }
               localStorage.setItem("user", response.data.data.user);
+
               this.$swal({
                 position: "center",
                 icon: "success",

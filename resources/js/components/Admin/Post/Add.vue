@@ -51,6 +51,19 @@
                   </div>
                 </div>
                 <div class="form-group">
+                  <label for="">Short Description</label>
+                  <ckeditor
+                    :editor="editor"
+                    name="short_description"
+                    id="short_description"
+                    v-model="short_description"
+                  ></ckeditor>
+
+                  <div class="alert alert-danger" v-if="errors.short_description">
+                    {{ errors.short_description }}
+                  </div>
+                </div>
+                <div class="form-group">
                   <label>Category</label>
                   <select
                     class="form-control"
@@ -110,15 +123,16 @@
                     {{ errors.meta_keywords }}
                   </div>
                 </div>
-                <div class="form-check">
+                <div class="form-group">
+                <label>Order</label>
                   <input
-                    type="checkbox"
-                    class="form-check-input"
-                    name="top"
-                    id="top"
-                    v-model="top"
+                    type="number"
+                    class="form-control"
+                    name="order"
+                    id="order"
+                    v-model="order"
                   />
-                  <label class="form-check-label" for="top">Shop Top</label>
+
                 </div>
 
                 <div class="form-group">
@@ -139,7 +153,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <button type="submit" class="btn btn-primary m-auto">Register</button>
+                  <button type="submit" class="btn btn-primary m-auto">Save</button>
                 </div>
               </form>
             </div>
@@ -156,30 +170,33 @@ import PostService from "../../../services/post";
 import CategoryService from "../../../services/category";
 export default {
   name: "PostAdd",
-  
+
   data() {
     return {
       errors: {
         name: "",
         image: "",
         description: "",
+        short_description: "",
         meta_title: "",
         meta_description: "",
         meta_keywords: "",
-        top: "",
+        order: "",
         status: "",
         categories:"",
       },
       id: null,
       name: null,
       image: null,
+      category_id: null,
       categories: {},
       imagePreview: null,
       description: null,
+      short_description: null,
       meta_title: null,
       meta_description: null,
       meta_keywords: null,
-      top: null,
+      order: null,
       status: null,
       editor: ClassicEditor,
       editorData: "<p>Content of the editor.</p>",
@@ -193,7 +210,7 @@ export default {
           response.data.map((item, index) => {
               this.categories[item.id]=item.name;
           });
-        
+
       });
   },
   methods: {
@@ -205,9 +222,7 @@ export default {
     previewFile(file) {
       const reader = new FileReader();
       // const preview=document.getElementById('imagePreview');
-      reader.addEventListener(
-        "load",
-        function () {
+      reader.addEventListener("load",function () {
           // preview.src = reader.result;
           this.imagePreview = reader.result;
           // console.log(reader.result);
@@ -237,6 +252,9 @@ export default {
       if (!this.description) {
         this.errors.description = "Description is Required.";
       }
+      if (!this.short_description) {
+        this.errors.short_description = "Short Description is Required.";
+      }
       if (!this.meta_title) {
         this.errors.meta_title = "Meta Title is Required.";
       }
@@ -248,6 +266,7 @@ export default {
       }
 
       if (this.errors.length == 0) {
+
         //    var data={
         //     name:this.name,
         //     image:this.image,
@@ -262,11 +281,14 @@ export default {
         const formData = new FormData();
         formData.append("image", this.image);
         formData.append('name', this.name);
+        formData.append('category_id', this.category_id);
         formData.append("description", this.description);
+        formData.append("short_description", this.short_description);
         formData.append("meta_description", this.meta_description);
         formData.append("meta_keywords", this.meta_keywords);
         formData.append("meta_title", this.meta_title);
         formData.append("status", this.status);
+        formData.append("order", this.order);
         formData.append("top", this.top);
 
         PostService.create(formData)
@@ -282,6 +304,9 @@ export default {
               }
               if (response.data.errors.description) {
                 this.errors.description = response.data.errors.description;
+              }
+              if (response.data.errors.short_description) {
+                this.errors.short_description = response.data.errors.short_description;
               }
               if (response.data.errors.meta_title) {
                 this.errors.meta_title = response.data.errors.meta_title;

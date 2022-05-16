@@ -33,7 +33,7 @@
                       <tbody>
                         <tr v-for="item in this.items" :key="item.id">
                           <td>{{ item.name }}</td>
-                          <td v-html="item.description"></td>
+                          <td v-html="item.short_description"></td>
                           <td v-html="item.imagehtml"></td>
                           <td>{{ item.meta_title }}</td>
                           <td>{{ item.meta_keywords }}</td>
@@ -92,8 +92,8 @@ export default {
           field: "name",
         },
         {
-          label: "Description",
-          field: "description",
+          label: "Short Description",
+          field: "short_description",
         },
         {
           label: "Image",
@@ -159,7 +159,6 @@ export default {
     },
     createPost(e) {
       e.preventDefault();
-
       this.$router.push("/admin/post/add");
     },
     getQueryParamsUri(uri) {

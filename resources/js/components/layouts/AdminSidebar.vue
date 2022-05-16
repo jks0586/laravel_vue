@@ -4,7 +4,7 @@
     <div class="slimscroll-menu">
       <!-- LOGO -->
       <div class="logo-box">
-          <router-link to="/admin/dashboard"  class="logo">
+        <router-link to="/admin/dashboard" class="logo">
           <span class="logo-lg">
             <img src="/assets/images/logo-light.png" alt="" height="22" />
             <!-- <span class="logo-lg-text-light">Highdmin</span> -->
@@ -25,43 +25,42 @@
           class="rounded-circle img-thumbnail avatar-md"
         />
         <div class="dropdown">
-            <router-link to="/admin/dashboard"
-              >
-              <span> Jitendra Sharma </span>
-              </router-link>
-
+          <router-link to="/admin/dashboard">
+            <span> Jitendra Sharma </span>
+          </router-link>
         </div>
-
       </div>
 
       <!--- Sidemenu -->
       <div id="sidebar-menu">
         <ul class="metismenu" id="side-menu">
           <li>
-              <router-link to="/admin/dashboard"
-              >
-             <i class="fe-airplay"></i>
+            <router-link to="/admin/dashboard">
+              <i class="fe-airplay"></i>
               <span class="badge badge-danger float-right">0</span>
               <span> Dashboard </span>
-              </router-link>
-
+            </router-link>
           </li>
           <li>
-            <router-link to="/admin/category"
-              >
+            <router-link to="/admin/category">
               <i class="fe-layers"></i>
               <span> Category </span>
-              </router-link>
+            </router-link>
           </li>
 
           <li>
-            <router-link to="/admin/post"
-              >
+            <router-link to="/admin/post">
               <i class="fe-layers"></i>
               <span> Post </span>
-              </router-link>
+            </router-link>
           </li>
 
+          <li>
+            <router-link to="/admin/users">
+              <i class="fe-users"></i>
+              <span> Users </span>
+            </router-link>
+          </li>
         </ul>
       </div>
       <!-- End Sidebar -->
