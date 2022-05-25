@@ -579,9 +579,19 @@ var PostService = /*#__PURE__*/function () {
       return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get('/posts');
     }
   }, {
+    key: "frontposts",
+    value: function frontposts() {
+      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get('/front/posts');
+    }
+  }, {
     key: "get",
     value: function get(id) {
       return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get('/post/' + id);
+    }
+  }, {
+    key: "postdetail",
+    value: function postdetail(id) {
+      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get('/post-detail/' + id);
     }
   }, {
     key: "update",

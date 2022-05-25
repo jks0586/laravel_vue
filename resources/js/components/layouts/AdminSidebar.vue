@@ -61,6 +61,13 @@
               <span> Users </span>
             </router-link>
           </li>
+
+           <li>
+            <router-link to="#" v-on:click="logout">
+              <i class="fe-users"></i>
+              <span> Logout </span>
+            </router-link>
+          </li>
         </ul>
       </div>
       <!-- End Sidebar -->
@@ -75,5 +82,11 @@
 export default {
   name: "AdminSidebar",
   setup() {},
+  methods:{
+      logout(){
+          localStorage.clear();
+          this.$route.push('/login');
+      }
+  }
 };
 </script>

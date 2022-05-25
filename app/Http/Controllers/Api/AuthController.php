@@ -47,12 +47,12 @@ class AuthController extends Controller
                 'email' => 'required|email|unique:users',
                 'password' => 'required|min:8',
             ]);
-
+    
             if ($validator->fails()) {
                 $this->errors = $validator->errors();
                 return $this->response();
             }
-
+            
             $user=new User();
             $user->password = bcrypt($request->password);
         }
@@ -60,6 +60,14 @@ class AuthController extends Controller
         $user->name=$request->name;
         $user->email=$request->email;
         $user->is_admin=$request->is_admin;
+        $user->about=$request->about;
+        $user->github_name=$request->github_name;
+        $user->github_url=$request->github_url;
+        $user->twitter_name=$request->twitter_name;
+        $user->twitter_url=$request->twitter_url;
+        $user->linkedin_name=$request->linkedin_name;
+        $user->linkedin_url=$request->linkedin_url;
+        
         if($request->file('avatar')){
             $file = $request->file('avatar');
             $org_file_name = $file->getClientOriginalName();

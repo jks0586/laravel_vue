@@ -13,7 +13,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <!-- Styles -->
     {{-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> --}}
-    <link href="{{ asset('assets/admin/css/letscms.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/front/css/letscms.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="letscms_front">

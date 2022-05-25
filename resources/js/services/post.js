@@ -12,8 +12,14 @@ class PostService{
     posts(){
         return http.get('/posts');
     }
+    frontposts(){
+        return http.get('/front/posts');
+    }
     get(id){
         return http.get('/post/'+id);
+    }
+    postdetail(id){
+        return http.get('/post-detail/'+id);
     }
     update(data){
         return http.post('/post/postupdate',data);

@@ -19,14 +19,22 @@ class PostController extends Controller
     public function index(Request $request)
     {
         //
-        $posts = Post::paginate($request->input('per_page'))->withQueryString();
+
+        $posts = Post::with('user')->paginate($request->input('per_page'))->withQueryString();
         return response($posts);
 
     }
 
     public function posts(Request $request){
-        $posts = Post::paginate($request->input('per_page'))->withQueryString();
+        $posts = Post::with('user')->paginate($request->input('per_page'))->withQueryString();
         return response($posts);
+    }
+
+    public function postdetail($id){
+
+        $post = Post::with('user')->find($id);
+        $this->data['post'] = $post;
+        return $this->response();
     }
 
     /**
@@ -89,6 +97,7 @@ class PostController extends Controller
             'meta_description' => $request->meta_description,
             'status' => $request->status,
             'order' => $request->order,
+            'user_id' => $request->user()->id,
         ]);
 
         $this->data['post'] = $post;
@@ -135,6 +144,7 @@ class PostController extends Controller
     public function postupdate(Request $request)
     {
         //
+
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'description' => 'required',
@@ -158,6 +168,7 @@ class PostController extends Controller
         $post->meta_description=$request->meta_description;
         $post->status=$request->status;
         $post->order=$request->order;
+        $post->user_id = $request->user()->id;
 
         if($request->file('image')){
             $file = $request->file('image');

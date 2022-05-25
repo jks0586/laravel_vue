@@ -15,6 +15,10 @@ class Post extends Model
 
     protected $appends = ['action','imageurl','imagehtml'];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
     public function getImageurlAttribute(){
         return Storage::url($this->image);
     }

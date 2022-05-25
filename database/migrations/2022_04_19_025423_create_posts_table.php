@@ -19,6 +19,7 @@ class CreatePostsTable extends Migration
             $table->string('image');
             $table->text('description');
             $table->text('short_description');
+            $table->integer('user_id')->default(0);
             $table->text('category_id')->nullable();
             $table->string('meta_title',255);
             $table->string('meta_description',255);

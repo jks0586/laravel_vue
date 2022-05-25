@@ -19,23 +19,29 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::group(['as' => 'api.'], function () {
-
     Route::post('/register', 'Api\AuthController@register')->name('api.register');
-
     Route::post('/login', 'Api\AuthController@login')->name('api.login');
-    Route::get('/users-list', 'Api\AuthController@list')->name('api.users.list');
-    Route::get('/user/{user}', 'Api\AuthController@get')->name('api.user.get');
-    Route::post('/user', 'Api\AuthController@post')->name('api.user.post');
-    Route::delete('/user/{user}', 'Api\AuthController@destroy')->name('api.user.destroy');
 
-    Route::resource('category', Api\CategoryController::class);
-    Route::get('/category/table', 'Api\CategoryController@table')->name('category.table');
+    // Route::get('/front/posts', 'Api\PostController@posts')->name('category.frontposts');
     Route::get('/category-list', 'Api\CategoryController@list')->name('category.list');
-    Route::post('/category/categoryupdate', 'Api\CategoryController@categoryupdate')->name('category.categoryupdate');
-
-    Route::resource('post', Api\PostController::class);
-    Route::get('/post/table', 'Api\PostController@table')->name('api.post.table');
+    Route::get('/post-detail/{post_id}', 'Api\PostController@postdetail')->name('post.detail');
     Route::get('/posts', 'Api\PostController@posts')->name('category.posts');
-    Route::post('/post/postupdate', 'Api\PostController@postupdate')->name('api.post.postupdate');
+
+    Route::group(['middleware' => ['auth:api']], function () {
+        Route::get('/users-list', 'Api\AuthController@list')->name('api.users.list');
+        Route::get('/user/{user}', 'Api\AuthController@get')->name('api.user.get');
+        Route::post('/user', 'Api\AuthController@post')->name('api.user.post');
+        Route::delete('/user/{user}', 'Api\AuthController@destroy')->name('api.user.destroy');
+
+        Route::resource('category', Api\CategoryController::class);
+        Route::get('/category/table', 'Api\CategoryController@table')->name('category.table');
+
+        Route::post('/category/categoryupdate', 'Api\CategoryController@categoryupdate')->name('category.categoryupdate');
+
+        Route::resource('post', Api\PostController::class);
+        Route::get('/post/table', 'Api\PostController@table')->name('api.post.table');
+
+        Route::post('/post/postupdate', 'Api\PostController@postupdate')->name('api.post.postupdate');
+    });
 
 });

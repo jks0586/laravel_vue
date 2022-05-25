@@ -30,9 +30,8 @@ __webpack_require__.r(__webpack_exports__);
       this.$router.push({
         path: "/admin/dashboard"
       });
-    }
+    } // alert('aaaaaa');
 
-    alert('aaaaaa');
   },
   methods: {
     login: function login(e) {
@@ -103,7 +102,7 @@ __webpack_require__.r(__webpack_exports__);
             });
 
             _this.$router.push({
-              path: "/admin/dashboard"
+              path: "/admin/dashboard/"
             });
           }
         })["catch"](function (err) {

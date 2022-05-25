@@ -53,7 +53,19 @@
                     {{ errors.avatar }}
                   </div>
                 </div>
+                <div class="form-group">
+                  <label for="">About Me</label>
+                  <ckeditor
+                    :editor="editor"
+                    name="about"
+                    id="about"
+                    v-model="about"
+                  ></ckeditor>
 
+                  <div class="alert alert-danger" v-if="errors.about">
+                    {{ errors.about }}
+                  </div>
+                </div>
                 <div class="form-check">
                   <input
                     type="checkbox"
@@ -68,6 +80,87 @@
                 </div>
 
                 <div class="clear-fix"></div>
+                <div class="form-group">
+                  <label for="">GitHub Name</label>
+                  <input
+                    class="form-control"
+                    name="github_name"
+                    id="github_name"
+                    placeholder="Github Name"
+                    v-model="github_name"
+                  />
+                  <div class="alert alert-danger" v-if="errors.github_name">
+                    {{ errors.github_name }}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="">GitHub Url</label>
+                  <input
+                    class="form-control"
+                    name="github_url"
+                    id="github_url"
+                    placeholder="Github Url"
+                    v-model="github_url"
+                  />
+                  <div class="alert alert-danger" v-if="errors.github_url">
+                    {{ errors.github_url }}
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="">Twitter Name</label>
+                  <input
+                    class="form-control"
+                    name="twitter_name"
+                    id="twitter_name"
+                    placeholder="Twitter Name"
+                    v-model="twitter_name"
+                  />
+                  <div class="alert alert-danger" v-if="errors.twitter_name">
+                    {{ errors.twitter_name }}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="">Twitter Url</label>
+                  <input
+                    class="form-control"
+                    name="twitter_url"
+                    id="twitter_url"
+                    placeholder="Twitter Url"
+                    v-model="twitter_url"
+                  />
+                  <div class="alert alert-danger" v-if="errors.twitter_url">
+                    {{ errors.twitter_url }}
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="">Linkedin  Name</label>
+                  <input
+                    class="form-control"
+                    name="linkedin_name"
+                    id="linkedin_name"
+                    placeholder="linkedin  Name"
+                    v-model="linkedin_name"
+                  />
+                  <div class="alert alert-danger" v-if="errors.linkedin_name">
+                    {{ errors.linkedin_name }}
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="">linkedin Url</label>
+                  <input
+                    class="form-control"
+                    name="linkedin_url"
+                    id="linkedinin_url"
+                    placeholder="linkedinin Url"
+                    v-model="linkedin_url"
+                  />
+                  <div class="alert alert-danger" v-if="errors.linkedin_url">
+                    {{ errors.linkedin_url }}
+                  </div>
+                </div>
 
                 <div class="form-group">
                   <button type="submit" class="btn btn-primary m-auto">Update</button>
@@ -82,13 +175,13 @@
 </template>
 
 <script>
-
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import UserService from "../../../services/auth";
 export default {
   name: "UserEdit",
   beforeCreate() {
     this.id = this.$route.params.id;
-    
+
     UserService.get(this.id)
       .then((response) => {
         //   console.log(response.data.data.user);
@@ -99,6 +192,13 @@ export default {
           this.avatar= response.data.data.user.avatar;
           this.is_admin= response.data.data.user.is_admin;
           this.avatarPreview = response.data.data.user.avatarurl;
+          this.about = response.data.data.user.about;
+          this.github_name = response.data.data.user.github_name;
+          this.github_url = response.data.data.user.github_url;
+          this.twitter_name = response.data.data.user.twitter_name;
+          this.twitter_url = response.data.data.user.twitter_url;
+          this.linkedin_name = response.data.data.user.linkedin_name;
+          this.linkedin_url = response.data.data.user.linkedin_url;
           let imgset = document.getElementById("avatarPreview");
           imgset.setAttribute("src", this.avatarPreview);
           imgset.setAttribute("width", 50);
@@ -116,6 +216,7 @@ export default {
         avatar: "",
         email:"",
         is_admin:"",
+
       },
       id: null,
       name: null,
@@ -124,6 +225,18 @@ export default {
       is_admin: null,
       avatarname: null,
       avatarPreview: null,
+      editor: ClassicEditor,
+      editorData: "<p>Content of the editor.</p>",
+      editorConfig: {
+        // The configuration of the editor.
+      },
+      about :null,
+      github_name :null,
+      github_url :null,
+      twitter_name :null,
+      twitter_url :null,
+      linkedin_name :null,
+      linkedin_url :null,
     };
   },
   methods: {
@@ -162,7 +275,7 @@ export default {
       if (!this.email) {
         this.errors.email = "Email is Required.";
       }
-      
+
       if (this.errors.length == 0) {
         const formData = new FormData();
         formData.append("id", this.id);
@@ -170,6 +283,14 @@ export default {
         formData.append("name", this.name);
         formData.append("email", this.email);
         formData.append("is_admin", this.is_admin);
+        formData.append("about", this.about);
+        formData.append("github_name", this.github_name);
+        formData.append("github_url", this.github_url);
+        formData.append("twitter_name", this.twitter_name);
+        formData.append("twitter_url", this.twitter_url);
+        formData.append("linkedin_name", this.linkedin_name);
+        formData.append("linkedin_url", this.linkedin_url);
+
 
         UserService.post(formData)
           .then((response) => {
@@ -186,7 +307,7 @@ export default {
               if (response.data.errors.avatar) {
                 this.errors.avatar = response.data.errors.avatar;
               }
-              
+
             } else {
               this.$swal({
                 position: "center",

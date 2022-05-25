@@ -17,6 +17,11 @@ const routes = [
         component: () => import('./components/Front/Home')
     },
     {
+        path: '/post/:id/:title',
+        name: 'post',
+        component: () => import('./components/Front/Postdetail')
+    },
+    {
         path: '/login',
         name: 'login',
         component: () => import('./components/Auth/login')
@@ -99,7 +104,7 @@ const routes = [
     {
         path: '/admin/users/edit/:id',
         name: '/admin/users/edit',
-        meta:{ middleware: [authuser,admin] },
+        meta:{ middleware: [admin],authuser },
         component: () => import('./components/Admin/Users/Edit')
     },
 ]

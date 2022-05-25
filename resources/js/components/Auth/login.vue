@@ -58,7 +58,7 @@ export default {
       if(localStorage.getItem('letscms_user_token')){
           this.$router.push({ path: "/admin/dashboard" });
       }
-      alert('aaaaaa');
+      // alert('aaaaaa');
   },
   methods: {
     login(e) {
@@ -118,7 +118,7 @@ export default {
                 timer: 15000,
               });
 
-              this.$router.push({ path: "/admin/dashboard" });
+              this.$router.push({ path: "/admin/dashboard/" });
             }
           })
           .catch((err) => {
