@@ -7,5 +7,5 @@ export default function admin({ to, next, store }) {
     }else {
         next();
     }
-    next();
+    // next();
   }

@@ -23288,6 +23288,19 @@ var app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)(_components_App_vue__WE
 app.use((vue_sweetalert2__WEBPACK_IMPORTED_MODULE_3___default()));
 app.use((_ckeditor_ckeditor5_vue__WEBPACK_IMPORTED_MODULE_7___default()));
 app.use(_routes__WEBPACK_IMPORTED_MODULE_2__["default"]);
+_routes__WEBPACK_IMPORTED_MODULE_2__["default"].beforeEach(function (to, from, next) {
+  if (to.name == undefined || to.name == 'home') {
+    if (localStorage.getItem('isAdmin')) {
+      next({
+        path: '/admin/dashboard/'
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
+});
 
 if (localStorage.getItem('isAdmin')) {
   app.component('AdminSidebar', _components_layouts_AdminSidebar__WEBPACK_IMPORTED_MODULE_5__["default"]);
@@ -23397,9 +23410,8 @@ function admin(_ref) {
     next(loginQuery);
   } else {
     next();
-  }
+  } // next();
 
-  next();
 }
 
 /***/ }),
@@ -23495,10 +23507,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var routes = [{
   path: '',
-  redirect: '/home'
+  name: '',
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_components_Front_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Front/Home */ "./resources/js/components/Front/Home.vue"));
+  }
 }, {
   path: '/',
-  redirect: '/home'
+  name: '/',
+  component: function component() {
+    return __webpack_require__.e(/*! import() */ "resources_js_components_Front_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Front/Home */ "./resources/js/components/Front/Home.vue"));
+  }
 }, {
   path: '/home',
   name: 'home',

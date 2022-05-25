@@ -11,9 +11,7 @@
             <!-- <div class="post-image"><img :src="post.imageurl"></div> -->
             <div class="post-description" v-html="post.short_description"></div>
             <div class="auth-section">
-
               <Author :user="post.user" />
-
             </div>
           </div>
         </div>

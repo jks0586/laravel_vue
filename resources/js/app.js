@@ -15,6 +15,18 @@ app.use(VueSweetalert2);
 app.use(CKEditor);
 app.use(router);
 
+router.beforeEach((to, from, next) => {
+    if(to.name==undefined || to.name=='home'){
+        if(localStorage.getItem('isAdmin')){
+            next({ path: '/admin/dashboard/' });
+        } else {
+            next();
+        }
+    } else {
+        next();
+    }
+});
+
 if(localStorage.getItem('isAdmin')){
     app.component('AdminSidebar',AdminSidebar)
     app.mount('#letscms_admin')
