@@ -15,7 +15,9 @@
                 <li class="nav-item" v-for="item in categories">
                     <a class="nav-link" :href='`${item.name}`'>{{ item.name }}</a>
                 </li>
-                
+                <li class="nav-item">
+                    <a class="nav-link" href="#" v-on:click="loginPopup">Login</a>
+                </li>
             </ul>
             <form class="d-flex">
                 <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -50,5 +52,10 @@ export default {
             console.log(error);
         });
   },
+  methods:{
+      loginPopup(){
+          alert('aaaa');
+      }
+  }
 };
 </script>

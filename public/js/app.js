@@ -22915,6 +22915,11 @@ __webpack_require__.r(__webpack_exports__);
     })["catch"](function (error) {
       console.log(error);
     });
+  },
+  methods: {
+    loginPopup: function loginPopup() {
+      alert('aaaa');
+    }
   }
 });
 
@@ -23224,8 +23229,11 @@ var _hoisted_9 = {
   "class": "nav-item"
 };
 var _hoisted_10 = ["href"];
+var _hoisted_11 = {
+  "class": "nav-item"
+};
 
-var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+var _hoisted_12 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
   "class": "d-flex"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
   "class": "form-control me-2",
@@ -23249,7 +23257,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     , _hoisted_10)]);
   }), 256
   /* UNKEYED_FRAGMENT */
-  ))]), _hoisted_11])])])])]);
+  )), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_11, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+    "class": "nav-link",
+    href: "#",
+    onClick: _cache[0] || (_cache[0] = function () {
+      return $options.loginPopup && $options.loginPopup.apply($options, arguments);
+    })
+  }, "Login")])]), _hoisted_12])])])])]);
 }
 
 /***/ }),
