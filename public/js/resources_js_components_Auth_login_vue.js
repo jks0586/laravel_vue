@@ -25,13 +25,10 @@ __webpack_require__.r(__webpack_exports__);
       password: null
     };
   },
-  mounted: function mounted() {
-    if (localStorage.getItem('letscms_user_token')) {
-      this.$router.push({
-        path: "/admin/dashboard"
-      });
-    } // alert('aaaaaa');
-
+  mounted: function mounted() {// if(localStorage.getItem('letscms_user_token')){
+    //     this.$router.push({ path: "/admin/dashboard" });
+    // }
+    // alert('aaaaaa');
   },
   methods: {
     login: function login(e) {
@@ -224,70 +221,6 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* HYDRATE_EVENTS */
   )])])]);
 }
-
-/***/ }),
-
-/***/ "./resources/js/services/auth.js":
-/*!***************************************!*\
-  !*** ./resources/js/services/auth.js ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _http_common__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../http-common */ "./resources/js/http-common.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-
-
-var UserService = /*#__PURE__*/function () {
-  function UserService() {
-    _classCallCheck(this, UserService);
-  }
-
-  _createClass(UserService, [{
-    key: "register",
-    value: function register(data) {
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post('/register', data);
-    }
-  }, {
-    key: "login",
-    value: function login(data) {
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post('/login', data);
-    }
-  }, {
-    key: "index",
-    value: function index(url) {
-      // alert('aaaaa');
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get(url);
-    }
-  }, {
-    key: "get",
-    value: function get(id) {
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get('/user/' + id);
-    }
-  }, {
-    key: "post",
-    value: function post(data) {
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post('/user', data);
-    }
-  }, {
-    key: "delete",
-    value: function _delete(id) {
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"]["delete"]('/user/' + id);
-    }
-  }]);
-
-  return UserService;
-}();
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (new UserService());
 
 /***/ }),
 

@@ -55,9 +55,9 @@ export default {
     };
   },
   mounted() {
-      if(localStorage.getItem('letscms_user_token')){
-          this.$router.push({ path: "/admin/dashboard" });
-      }
+      // if(localStorage.getItem('letscms_user_token')){
+      //     this.$router.push({ path: "/admin/dashboard" });
+      // }
       // alert('aaaaaa');
   },
   methods: {

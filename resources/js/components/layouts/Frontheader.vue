@@ -12,11 +12,11 @@
                 <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">About Me</a>
                 </li>
-                <li class="nav-item" v-for="item in categories">
+                <li class="nav-item" v-for="item in categories" :key="item.id">
                     <a class="nav-link" :href='`${item.name}`'>{{ item.name }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#" v-on:click="loginPopup">Login</a>
+                    <a class="nav-link" href="/login">Login</a>
                 </li>
             </ul>
             <form class="d-flex">
@@ -27,17 +27,61 @@
         </div>
         </div>
         </nav>
+        <b-modal id="login-modal" noFade :show="true" :centered="true" :scrollable="true" title="Login" titleTag="h3" size="lg" :hideOk="true">
+            <div class="alert alert-danger" v-if="errors.message">
+                {{ errors.message }}
+                </div>
+                <form action="" id="login" method="POSt" @submit="login">
+                <div class="form-group">
+                    <label for="">Email</label>
+                    <input
+                    class="form-control"
+                    name="email"
+                    id="email"
+                    placeholder="Enter Email"
+                    v-model="email"
+                    />
+                    <div class="alert alert-danger" v-if="errors.email">{{ errors.email }}</div>
+                </div>
+                <div class="form-group">
+                    <label for="">Password</label>
+                    <input
+                    type="password"
+                    class="form-control"
+                    id="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    v-model="password"
+                    />
+                    <div class="alert alert-danger" v-if="errors.password">
+                    {{ errors.password }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary m-auto">Login</button>
+                </div>
+                </form>
+                </b-modal>
 </header>
+ 
 </template>
 
 <script>
 import CategoryService from '../../services/category';
+import UserService from "../../services/auth";
 
 export default {
   name: "Frontheader",
   data(){
       return {
           categories:[],
+          errors: {
+            email: "",
+            password: "",
+            message: "",
+          },
+          email: null,
+          password: null,
       };
   },
   setup() {
@@ -53,9 +97,74 @@ export default {
         });
   },
   methods:{
-      loginPopup(){
-          alert('aaaa');
+      loginPopup(){ 
+          document.getElementById('login-modal').style.display='block';
+      },
+      login(e) {
+      e.preventDefault();
+      this.errors = [];
+      if (!this.email) {
+        this.errors.email = "Email is Required";
       }
+      if (!this.password) {
+        this.errors.password = "Password is Required";
+      }
+      if (this.errors.length == 0) {
+        var data = {
+          email: this.email,
+          password: this.password,
+        };
+        UserService.login(data)
+          .then((response) => {
+            if (!response.data.status) {
+              if (response.data.message) {
+                this.errors.message = response.data.message;
+                const Toast = this.$swal.mixin({
+                  toast: true,
+                  position: "top-end",
+                  showConfirmButton: false,
+                  timer: 3000,
+                  timerProgressBar: true,
+                  didOpen: (toast) => {
+                    toast.addEventListener("mouseenter", this.$swal.stopTimer);
+                    toast.addEventListener("mouseleave", this.$swal.resumeTimer);
+                  },
+                });
+                Toast.fire({
+                  icon: "error",
+                  title: this.errors.message,
+                });
+              }
+              if (response.data.errors.email) {
+                this.errors.email = response.data.errors.email;
+              }
+              if (response.data.errors.password) {
+                this.errors.password = response.data.errors.password;
+              }
+            } else {
+                // console.log(response.data.data.user.is_admin);
+              localStorage.setItem("letscms_user_token", response.data.data.token);
+              if(response.data.data.user.is_admin===1){
+                  localStorage.setItem("isAdmin", response.data.data.user.is_admin);
+              }
+              localStorage.setItem("user", response.data.data.user);
+
+              this.$swal({
+                position: "center",
+                icon: "success",
+                title: "You have Loged In Successfully",
+                showConfirmButton: false,
+                timer: 15000,
+              });
+
+              this.$router.push({ path: "/admin/dashboard/" });
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      }
+    },
   }
 };
 </script>

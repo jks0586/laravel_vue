@@ -1,19 +1,24 @@
 require('./bootstrap');
 require('../sass/app.scss')
 
-import { createApp } from 'vue'
-import App from './components/App.vue'
-import router from './routes'
+import { createApp } from 'vue';
+import BootstrapVue3 from 'bootstrap-vue-3';
+import App from './components/App.vue';
+import router from './routes';
 import VueSweetalert2 from 'vue-sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 import AdminSidebar from './components/layouts/AdminSidebar'
 import Frontheader from './components/layouts/Frontheader'
 import CKEditor from '@ckeditor/ckeditor5-vue';
+// import 'bootstrap/dist/css/bootstrap.css'
+// import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
 const app = createApp(App)
 
 app.use(VueSweetalert2);
 app.use(CKEditor);
 app.use(router);
+
+app.use(BootstrapVue3);
 
 router.beforeEach((to, from, next) => {
     if(to.name==undefined || to.name=='home'){

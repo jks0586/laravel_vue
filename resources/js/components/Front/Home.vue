@@ -1,7 +1,8 @@
 <template>
   <Frontheader />
   <div class="container mt-3">
-    <div class="row" v-for="post in posts">
+   
+    <div class="row" v-for="post in posts" :key="post.id">
       <div class="col-md-12">
         <div class="card">
           <div class="card-body">
@@ -32,6 +33,9 @@ export default {
       posts: [],
     };
   },
+  methods:{
+   
+  },
   mounted() {
     //  alert(localStorage.getItem('isAdmin'));
 
@@ -45,6 +49,7 @@ export default {
       .catch((error) => {
         console.log("aaa");
       });
+    // document.getElementById('login-modal').style.display='block';
   },
 };
 </script>
