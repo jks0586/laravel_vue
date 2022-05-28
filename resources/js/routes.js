@@ -34,6 +34,11 @@ const routes = [
         component: () => import('./components/Auth/register')
     },
     {
+        path: '/category/:id/:name',
+        name: '/category-detail',
+        component: () => import('./components/Front/Category/Detail')
+    },
+    {
         path: '/account',
         name: 'account',
         meta:{ middleware: [authuser] },

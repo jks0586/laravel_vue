@@ -23,7 +23,7 @@
                 <a class="nav-link active" aria-current="page" href="#">About Me</a>
               </li>
               <li class="nav-item" v-for="item in categories" :key="item.id">
-                <a class="nav-link" :href="`${item.name}`">{{ item.name }}</a>
+                <a class="nav-link" :href="`/category/${item.id}/${item.name}`">{{ item.name }}</a>
               </li>
 
               <li class="nav-item dropdown">
@@ -38,7 +38,7 @@
                 >
                 <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="myaccount">
                   <li class="nav-item" v-if="!isAuth">
-                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href="#"  data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
                   </li>
                   <li class="nav-item" v-if="!isAuth">
                     <a class="nav-link" href="/register">Register</a>
@@ -65,18 +65,15 @@
         </div>
       </div>
     </nav>
-    <b-modal
-      id="login-modal"
-      noFade
-      :show="true"
-      :centered="true"
-      :scrollable="true"
-      title="Login"
-      titleTag="h3"
-      size="lg"
-      :hideOk="true"
-    >
-      <div class="alert alert-danger" v-if="errors.message">
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="loginModalLabel">Login User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger" v-if="errors.message">
         {{ errors.message }}
       </div>
       <form action="" id="login" method="POSt" @submit="login">
@@ -109,7 +106,11 @@
           <button type="submit" class="btn btn-primary m-auto">Login</button>
         </div>
       </form>
-    </b-modal>
+      </div>
+    </div>
+  </div>
+</div>
+    
   </header>
 </template>
 
@@ -184,7 +185,7 @@ export default {
                   toast: true,
                   position: "top-end",
                   showConfirmButton: false,
-                  timer: 3000,
+                  timer: 1000,
                   timerProgressBar: true,
                   didOpen: (toast) => {
                     toast.addEventListener("mouseenter", this.$swal.stopTimer);
@@ -203,22 +204,25 @@ export default {
                 this.errors.password = response.data.errors.password;
               }
             } else {
-              // console.log(response.data.data.user.is_admin);
+              console.log(response.data.data);
               localStorage.setItem("letscms_user_token", response.data.data.token);
               if (response.data.data.user.is_admin === 1) {
                 localStorage.setItem("isAdmin", response.data.data.user.is_admin);
+              } else if(response.data.data.user.is_admin === 0){
+                  localStorage.setItem("isAuth", 1);
               }
-              localStorage.setItem("user", response.data.data.user);
-
+            localStorage.setItem("user",  JSON.stringify(response.data.data.user));
               this.$swal({
                 position: "center",
                 icon: "success",
                 title: "You have Loged In Successfully",
                 showConfirmButton: false,
-                timer: 15000,
+                timer: 1000,
+              }).then((response)=>{
+                 this.$router.go(this.$router.currentRoute)
               });
 
-              this.$router.push({ path: "/admin/dashboard/" });
+              
             }
           })
           .catch((err) => {

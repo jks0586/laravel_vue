@@ -117,7 +117,7 @@ export default {
                 icon: "success",
                 title: "You have Loged In Successfully",
                 showConfirmButton: false,
-                timer: 15000,
+                timer: 1000,
               });
              if(response.data.data.user.is_admin===1){
                  this.$router.push({ path: "/admin/dashboard/" });

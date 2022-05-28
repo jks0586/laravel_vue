@@ -177,17 +177,20 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , _hoisted_6), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "social-link",
-    href: $props.user.github_url
+    href: $props.user.github_url,
+    target: "_blank"
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.user.github_name), 9
   /* TEXT, PROPS */
   , _hoisted_7), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "social-link",
-    href: $props.user.linkedin_url
+    href: $props.user.linkedin_url,
+    target: "_blank"
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.user.linkedin_name), 9
   /* TEXT, PROPS */
   , _hoisted_8), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
     "class": "social-link",
-    href: $props.user.twitter_url
+    href: $props.user.twitter_url,
+    target: "_blank"
   }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($props.user.twitter_name), 9
   /* TEXT, PROPS */
   , _hoisted_9)])])]);

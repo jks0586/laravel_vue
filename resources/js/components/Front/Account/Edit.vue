@@ -66,18 +66,7 @@
                     {{ errors.about }}
                   </div>
                 </div>
-                <div class="form-check">
-                  <input
-                    type="checkbox"
-                    class="form-check-input"
-                    name="is_admin"
-                    id="is_admin"
-                    v-model="is_admin"
-                    true-value="1"
-                    false-value="0"
-                  />
-                  <label class="form-check-label" for="top">Is Admin</label>
-                </div>
+                
 
                 <div class="clear-fix"></div>
                 <div class="form-group">
@@ -281,7 +270,7 @@ beforeCreate() {
         formData.append("avatar", this.avatar);
         formData.append("name", this.name);
         formData.append("email", this.email);
-        formData.append("is_admin", this.is_admin);
+        formData.append("is_admin", 0);
         formData.append("about", this.about);
         formData.append("github_name", this.github_name);
         formData.append("github_url", this.github_url);
@@ -293,7 +282,7 @@ beforeCreate() {
 
         UserService.post(formData)
           .then((response) => {
-            console.log(response);
+            
             if (!response.data.status) {
               if (response.data.errors.name) {
                 this.errors.name = response.data.errors.name;
@@ -314,9 +303,11 @@ beforeCreate() {
                 title: "User has been updated Successfully",
                 showConfirmButton: false,
                 timer: 1500,
+              }).then(response=> {
+                   this.$router.push("/account");
               });
 
-              this.$router.push("/account/edit");
+             
             }
           })
           .catch((error) => {
