@@ -10,8 +10,10 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import AdminSidebar from './components/layouts/AdminSidebar'
 import Frontheader from './components/layouts/Frontheader'
 import CKEditor from '@ckeditor/ckeditor5-vue';
-// import 'bootstrap/dist/css/bootstrap.css'
-// import 'bootstrap-vue-3/dist/bootstrap-vue-3.css'
+// import "bootstrap";
+import "bootstrap/dist/js/bootstrap.js";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../../public/assets/front/css/letscms.css";
 const app = createApp(App)
 
 app.use(VueSweetalert2);

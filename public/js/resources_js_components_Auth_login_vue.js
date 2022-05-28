@@ -85,10 +85,12 @@ __webpack_require__.r(__webpack_exports__);
             localStorage.setItem("letscms_user_token", response.data.data.token);
 
             if (response.data.data.user.is_admin === 1) {
-              localStorage.setItem("isAdmin", response.data.data.user.is_admin);
+              localStorage.setItem("isAdmin", 1);
+            } else if (response.data.data.user.is_admin === 0) {
+              localStorage.setItem("isAuth", 1);
             }
 
-            localStorage.setItem("user", response.data.data.user);
+            localStorage.setItem("user", JSON.stringify(response.data.data.user));
 
             _this.$swal({
               position: "center",
@@ -98,9 +100,15 @@ __webpack_require__.r(__webpack_exports__);
               timer: 15000
             });
 
-            _this.$router.push({
-              path: "/admin/dashboard/"
-            });
+            if (response.data.data.user.is_admin === 1) {
+              _this.$router.push({
+                path: "/admin/dashboard/"
+              });
+            } else if (response.data.data.user.is_admin === 0) {
+              _this.$router.push({
+                path: "/"
+              });
+            }
           }
         })["catch"](function (err) {
           console.log(err);
@@ -128,7 +136,7 @@ var _hoisted_1 = {
   "class": "row"
 };
 var _hoisted_2 = {
-  "class": "col-md-6 offset-3"
+  "class": "col-md-6 offset-3 mt-5"
 };
 var _hoisted_3 = {
   "class": "card-box"

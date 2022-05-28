@@ -34,6 +34,18 @@ const routes = [
         component: () => import('./components/Auth/register')
     },
     {
+        path: '/account',
+        name: 'account',
+        meta:{ middleware: [authuser] },
+        component: () => import('./components/Front/Account/Account')
+    },
+    {
+        path: '/account/edit',
+        name: 'account/edit',
+        meta:{ middleware: [authuser] },
+        component: () => import('./components/Front/Account/Edit')
+    },
+    {
         path: '/admin/user/edit/:id',
         name: 'userget',
         component: () => import('./components/Admin/Users/Edit')

@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-md-6 offset-3">
+    <div class="col-md-6 offset-3 mt-5">
       <div class="card-box">
         <div class="header-title mb-4 text-center">Register</div>
         <form @submit="register" action="" id="register" method="POST">
@@ -103,6 +103,7 @@ export default {
                 showConfirmButton: false,
                 timer: 15000
                 });
+                this.$router.push({ path: "/login" });
             }
         }).catch(e=>{
             console.log(e);

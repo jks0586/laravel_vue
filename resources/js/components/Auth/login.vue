@@ -1,6 +1,6 @@
 <template>
   <div class="row">
-    <div class="col-md-6 offset-3">
+    <div class="col-md-6 offset-3  mt-5">
       <div class="card-box">
         <div class="header-title mb-4 text-center">Login</div>
         <div class="alert alert-danger" v-if="errors.message">
@@ -106,9 +106,11 @@ export default {
                 // console.log(response.data.data.user.is_admin);
               localStorage.setItem("letscms_user_token", response.data.data.token);
               if(response.data.data.user.is_admin===1){
-                  localStorage.setItem("isAdmin", response.data.data.user.is_admin);
+                  localStorage.setItem("isAdmin", 1);
+              } else if(response.data.data.user.is_admin===0){
+                  localStorage.setItem("isAuth", 1);
               }
-              localStorage.setItem("user", response.data.data.user);
+              localStorage.setItem("user",  JSON.stringify(response.data.data.user));
 
               this.$swal({
                 position: "center",
@@ -117,8 +119,12 @@ export default {
                 showConfirmButton: false,
                 timer: 15000,
               });
+             if(response.data.data.user.is_admin===1){
+                 this.$router.push({ path: "/admin/dashboard/" });
+              } else if(response.data.data.user.is_admin===0){
+                  this.$router.push({ path: "/" });
+              }
 
-              this.$router.push({ path: "/admin/dashboard/" });
             }
           })
           .catch((err) => {

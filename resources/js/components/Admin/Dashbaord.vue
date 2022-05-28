@@ -1,8 +1,5 @@
 <template>
-
-    <admin-sidebar />
-    hgjhkjhkj
-
+ <admin-sidebar></admin-sidebar>
 </template>
 <script>
 export default {

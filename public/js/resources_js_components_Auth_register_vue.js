@@ -78,6 +78,10 @@ __webpack_require__.r(__webpack_exports__);
               showConfirmButton: false,
               timer: 15000
             });
+
+            _this.$router.push({
+              path: "/login"
+            });
           }
         })["catch"](function (e) {
           console.log(e);
@@ -111,7 +115,7 @@ var _hoisted_1 = {
   "class": "row"
 };
 var _hoisted_2 = {
-  "class": "col-md-6 offset-3"
+  "class": "col-md-6 offset-3 mt-5"
 };
 var _hoisted_3 = {
   "class": "card-box"
