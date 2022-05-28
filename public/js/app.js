@@ -23104,6 +23104,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _services_category__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../services/category */ "./resources/js/services/category.js");
 /* harmony import */ var _services_auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../services/auth */ "./resources/js/services/auth.js");
+/* harmony import */ var bootstrap__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -23116,15 +23118,21 @@ __webpack_require__.r(__webpack_exports__);
         password: "",
         message: ""
       },
+      name: null,
       email: null,
       password: null,
       isAuth: null,
-      user: null
+      user: null,
+      loginM: null,
+      registerM: null
     };
   },
   setup: function setup() {},
   mounted: function mounted() {
     var _this = this;
+
+    this.loginM = new bootstrap__WEBPACK_IMPORTED_MODULE_2__.Modal(this.$refs.loginModal);
+    this.registerM = new bootstrap__WEBPACK_IMPORTED_MODULE_2__.Modal(this.$refs.registerModal);
 
     if (localStorage.getItem("isAuth")) {
       this.isAuth = 1;
@@ -23145,15 +23153,84 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     logout: function logout() {
       localStorage.clear();
+      this.$swal({
+        position: "center",
+        icon: "success",
+        title: "You have Loged Out Successfully",
+        showConfirmButton: false,
+        timer: 1000
+      });
       this.$router.push({
         path: "/login"
       });
     },
-    loginPopup: function loginPopup() {
-      document.getElementById("login-modal").style.display = "block";
+    register: function register(e) {
+      var _this2 = this;
+
+      this.errors = [];
+
+      if (!this.name) {
+        this.errors.name = "Name is Required.";
+      }
+
+      if (!this.email) {
+        this.errors.email = "Email is required.";
+      } else if (!this.validEmail(this.email)) {
+        this.errors.email = "Email is Invalid";
+      }
+
+      if (!this.password) {
+        this.errors.password = "password is required";
+      }
+
+      if (this.errors.length == 0) {
+        var data = {
+          name: this.name,
+          email: this.email,
+          password: this.password
+        };
+        _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].register(data).then(function (response) {
+          if (!response.data.status) {
+            if (response.data.errors.email) {
+              _this2.errors.email = response.data.errors.email;
+            }
+
+            if (response.data.errors.name) {
+              _this2.errors.name = response.data.errors.name;
+            }
+
+            if (response.data.errors.name) {
+              _this2.errors.password = response.data.errors.password;
+            }
+
+            console.log(response.data.errors);
+          } else {
+            _this2.$swal({
+              position: 'center',
+              icon: 'success',
+              title: 'You have Register Successfully',
+              showConfirmButton: false,
+              timer: 1000
+            });
+
+            _this2.registerM.hide();
+
+            _this2.loginM.show(); // this.$router.push({ path: "/login" });
+
+          }
+        })["catch"](function (e) {
+          console.log(e);
+        });
+      }
+
+      e.preventDefault();
+    },
+    validEmail: function validEmail(email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
     },
     login: function login(e) {
-      var _this2 = this;
+      var _this3 = this;
 
       e.preventDefault();
       this.errors = [];
@@ -23174,32 +23251,32 @@ __webpack_require__.r(__webpack_exports__);
         _services_auth__WEBPACK_IMPORTED_MODULE_1__["default"].login(data).then(function (response) {
           if (!response.data.status) {
             if (response.data.message) {
-              _this2.errors.message = response.data.message;
+              _this3.errors.message = response.data.message;
 
-              var Toast = _this2.$swal.mixin({
+              var Toast = _this3.$swal.mixin({
                 toast: true,
                 position: "top-end",
                 showConfirmButton: false,
                 timer: 1000,
                 timerProgressBar: true,
                 didOpen: function didOpen(toast) {
-                  toast.addEventListener("mouseenter", _this2.$swal.stopTimer);
-                  toast.addEventListener("mouseleave", _this2.$swal.resumeTimer);
+                  toast.addEventListener("mouseenter", _this3.$swal.stopTimer);
+                  toast.addEventListener("mouseleave", _this3.$swal.resumeTimer);
                 }
               });
 
               Toast.fire({
                 icon: "error",
-                title: _this2.errors.message
+                title: _this3.errors.message
               });
             }
 
             if (response.data.errors.email) {
-              _this2.errors.email = response.data.errors.email;
+              _this3.errors.email = response.data.errors.email;
             }
 
             if (response.data.errors.password) {
-              _this2.errors.password = response.data.errors.password;
+              _this3.errors.password = response.data.errors.password;
             }
           } else {
             console.log(response.data.data);
@@ -23213,14 +23290,14 @@ __webpack_require__.r(__webpack_exports__);
 
             localStorage.setItem("user", JSON.stringify(response.data.data.user));
 
-            _this2.$swal({
+            _this3.$swal({
               position: "center",
               icon: "success",
               title: "You have Loged In Successfully",
               showConfirmButton: false,
               timer: 1000
             }).then(function (response) {
-              _this2.$router.go(_this2.$router.currentRoute);
+              _this3.$router.go(_this3.$router.currentRoute);
             });
           }
         })["catch"](function (err) {
@@ -23575,7 +23652,9 @@ var _hoisted_16 = {
 
 var _hoisted_17 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
   "class": "nav-link",
-  href: "/register"
+  href: "#",
+  "data-bs-toggle": "modal",
+  "data-bs-target": "#registerModal"
 }, "Register", -1
 /* HOISTED */
 );
@@ -23611,6 +23690,7 @@ var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_23 = {
   "class": "modal fade",
   id: "loginModal",
+  ref: "loginModal",
   tabindex: "-1",
   "aria-labelledby": "loginModalLabel",
   "aria-hidden": "true"
@@ -23681,6 +23761,94 @@ var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
+var _hoisted_36 = {
+  "class": "modal fade",
+  id: "registerModal",
+  ref: "registerModal",
+  tabindex: "-1",
+  "aria-labelledby": "registerModalLabel",
+  "aria-hidden": "true"
+};
+var _hoisted_37 = {
+  "class": "modal-dialog"
+};
+var _hoisted_38 = {
+  "class": "modal-content"
+};
+
+var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "modal-header"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  "class": "modal-title",
+  id: "registerModalLabel"
+}, "Register User"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  type: "button",
+  "class": "btn-close",
+  "data-bs-dismiss": "modal",
+  "aria-label": "Close"
+})], -1
+/* HOISTED */
+);
+
+var _hoisted_40 = {
+  "class": "modal-body"
+};
+var _hoisted_41 = {
+  key: 0,
+  "class": "alert alert-danger"
+};
+var _hoisted_42 = {
+  "class": "form-group"
+};
+
+var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": ""
+}, "Name", -1
+/* HOISTED */
+);
+
+var _hoisted_44 = {
+  key: 0,
+  "class": "alert alert-danger"
+};
+var _hoisted_45 = {
+  "class": "form-group"
+};
+
+var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": ""
+}, "Email", -1
+/* HOISTED */
+);
+
+var _hoisted_47 = {
+  key: 0,
+  "class": "alert alert-danger"
+};
+var _hoisted_48 = {
+  "class": "form-group"
+};
+
+var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": ""
+}, "Password", -1
+/* HOISTED */
+);
+
+var _hoisted_50 = {
+  key: 0,
+  "class": "alert alert-danger"
+};
+
+var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "form-group"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  type: "submit",
+  "class": "btn btn-primary m-auto"
+}, "Register")], -1
+/* HOISTED */
+);
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("header", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [_hoisted_4, _hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_7, [_hoisted_8, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.categories, function (item) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("li", {
@@ -23738,7 +23906,59 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _hoisted_35], 32
   /* HYDRATE_EVENTS */
-  )])])])])]);
+  )])])])], 512
+  /* NEED_PATCH */
+  ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_38, [_hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [$data.errors.message ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.message), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("form", {
+    onSubmit: _cache[7] || (_cache[7] = function () {
+      return $options.register && $options.register.apply($options, arguments);
+    }),
+    action: "",
+    id: "register",
+    method: "POST"
+  }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [_hoisted_43, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "form-control",
+    name: "name",
+    id: "register-name",
+    placeholder: "Enter Name",
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.name = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.name]]), $data.errors.name ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_44, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.name), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_45, [_hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "form-control",
+    name: "email",
+    id: "register-email",
+    placeholder: "Enter Email",
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+      return $data.email = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.email]]), $data.errors.email ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_47, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.email), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_48, [_hoisted_49, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "password",
+    "class": "form-control",
+    id: "register-password",
+    name: "password",
+    placeholder: "Enter Password",
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+      return $data.password = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.password]]), $data.errors.password ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.password), 1
+  /* TEXT */
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), _hoisted_51], 32
+  /* HYDRATE_EVENTS */
+  )])])])], 512
+  /* NEED_PATCH */
+  )]);
 }
 
 /***/ }),

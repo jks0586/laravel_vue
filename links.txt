@@ -2,3 +2,4 @@ https://larainfo.com/blogs/how-to-install-bootstrap-5-in-vue-3
 https://www.youtube.com/watch?v=zaBH3F7nauo
 https://www.youtube.com/watch?v=rHIJirkqssw
 https://www.youtube.com/watch?v=oZ9zlS5V5WU
+https://dev.to/tefoh/use-bootstrap-5-in-vue-correctly-2k2g

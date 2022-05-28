@@ -41,7 +41,7 @@
                     <a class="nav-link" href="#"  data-bs-toggle="modal" data-bs-target="#loginModal">Login</a>
                   </li>
                   <li class="nav-item" v-if="!isAuth">
-                    <a class="nav-link" href="/register">Register</a>
+                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#registerModal">Register</a>
                   </li>
                   <li class="nav-item" v-if="isAuth">
                     <a class="nav-link" href="/account">My Account ( {{ user.name }})</a>
@@ -65,7 +65,7 @@
         </div>
       </div>
     </nav>
-    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+<div class="modal fade" id="loginModal" ref="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -110,6 +110,55 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade" id="registerModal" ref="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="registerModalLabel">Register User</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger" v-if="errors.message">
+        {{ errors.message }}
+      </div>
+      <form @submit="register" action="" id="register" method="POST">
+          <div class="form-group">
+            <label for="">Name</label>
+            <input class="form-control" name="name" id="register-name" placeholder="Enter Name" v-model="name" />
+            <div class="alert alert-danger" v-if="errors.name">{{errors.name}}</div>
+          </div>
+          <div class="form-group">
+            <label for="">Email</label>
+            <input
+              class="form-control"
+              name="email"
+              id="register-email"
+              placeholder="Enter Email"
+              v-model="email"
+            />
+            <div class="alert alert-danger" v-if="errors.email">{{errors.email}}</div>
+          </div>
+          <div class="form-group">
+            <label for="">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="register-password"
+              name="password"
+              placeholder="Enter Password"
+              v-model="password"
+            />
+            <div class="alert alert-danger" v-if="errors.password">{{errors.password}}</div>
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary m-auto">Register</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
     
   </header>
 </template>
@@ -117,7 +166,7 @@
 <script>
 import CategoryService from "../../services/category";
 import UserService from "../../services/auth";
-
+import {Modal} from "bootstrap";
 export default {
   name: "Frontheader",
   data() {
@@ -128,14 +177,20 @@ export default {
         password: "",
         message: "",
       },
+      name:null,
       email: null,
       password: null,
       isAuth: null,
       user: null,
+      loginM:null,
+      registerM:null,
     };
   },
   setup() {},
   mounted() {
+    this.loginM = new Modal(this.$refs.loginModal);
+    this.registerM = new Modal(this.$refs.registerModal);
+    
     if (localStorage.getItem("isAuth")) {
       this.isAuth = 1;
     }
@@ -156,11 +211,70 @@ export default {
   methods: {
     logout() {
       localStorage.clear();
+      this.$swal({
+        position: "center",
+        icon: "success",
+        title: "You have Loged Out Successfully",
+        showConfirmButton: false,
+        timer: 1000,
+        })
       this.$router.push({ path: "/login" });
     },
+    register(e) {
+      this.errors = [];
+      if (!this.name) {
+        this.errors.name="Name is Required.";
+      }
+      if (!this.email) {
+        this.errors.email="Email is required.";
+      } else if (!this.validEmail(this.email)) {
+        this.errors.email="Email is Invalid";
+      }
 
-    loginPopup() {
-      document.getElementById("login-modal").style.display = "block";
+      if (!this.password) {
+        this.errors.password="password is required";
+      }
+      if (this.errors.length == 0) {
+
+        var data={
+            name:this.name,
+            email:this.email,
+            password: this.password,
+        }
+
+        UserService.register(data).then(response=>{
+            if(!response.data.status){
+                if(response.data.errors.email){
+                    this.errors.email=response.data.errors.email;
+                }
+                if(response.data.errors.name){
+                    this.errors.name=response.data.errors.name;
+                }
+                if(response.data.errors.name){
+                    this.errors.password=response.data.errors.password;
+                }
+                console.log(response.data.errors);
+            } else {
+                this.$swal({
+                position: 'center',
+                icon: 'success',
+                title: 'You have Register Successfully',
+                showConfirmButton: false,
+                timer: 1000
+                });
+                this.registerM.hide();
+                this.loginM.show();
+                // this.$router.push({ path: "/login" });
+            }
+        }).catch(e=>{
+            console.log(e);
+        });
+      }
+      e.preventDefault();
+    },
+    validEmail: function (email) {
+      var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(email);
     },
     login(e) {
       e.preventDefault();
