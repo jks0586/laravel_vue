@@ -25,7 +25,7 @@ Route::group(['as' => 'api.'], function () {
     // Route::get('/front/posts', 'Api\PostController@posts')->name('category.frontposts');
     Route::get('/category-list', 'Api\CategoryController@list')->name('category.list');
     Route::get('/post-detail/{post_id}', 'Api\PostController@postdetail')->name('post.detail');
-    Route::get('/posts', 'Api\PostController@posts')->name('category.posts');
+    Route::post('/posts', 'Api\PostController@posts')->name('category.posts');
 
     Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/users-list', 'Api\AuthController@list')->name('api.users.list');
@@ -42,6 +42,10 @@ Route::group(['as' => 'api.'], function () {
         Route::get('/post/table', 'Api\PostController@table')->name('api.post.table');
 
         Route::post('/post/postupdate', 'Api\PostController@postupdate')->name('api.post.postupdate');
+
+        Route::resource('comment', Api\CommentController::class);
+        Route::post('/comment/commentupdate', 'Api\CommentController@commentupdate')->name('api.comment.commentupdate');
+
     });
 
 });

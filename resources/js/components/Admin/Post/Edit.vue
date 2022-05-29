@@ -63,7 +63,22 @@
                     {{ errors.short_description }}
                   </div>
                 </div>
-
+                <div class="form-group">
+                  <label>Category</label>
+                  <select
+                    class="form-control"
+                    name="category_id"
+                    id="category_id"
+                    v-model="category_id"
+                    placeholder="--Choose Category --"
+                  >
+                    <option value="0">-- Choose Category --</option>
+                    <option :value="index" v-for="(cat,index) in this.categories" :key="cat">{{ cat }}</option>
+                  </select>
+                  <div class="alert alert-danger" v-if="errors.categories">
+                    {{ errors.categories }}
+                  </div>
+                </div>
                 <div class="form-group">
                   <label>Meta Title </label>
                   <input
@@ -108,8 +123,8 @@
                     {{ errors.meta_keywords }}
                   </div>
                 </div>
-                 <div class="form-group">
-                <label>Order</label>
+                <div class="form-group">
+                  <label>Order</label>
                   <input
                     type="number"
                     class="form-control"
@@ -117,7 +132,6 @@
                     id="order"
                     v-model="order"
                   />
-
                 </div>
 
                 <div class="form-group">
@@ -152,9 +166,20 @@
 <script>
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 import PostService from "../../../services/post";
+import CategoryService from "../../../services/category";
 export default {
   name: "PostEdit",
   beforeCreate() {
+
+  
+CategoryService.list().then((response)=>{
+    response.data.map((item, index) => {
+        this.categories[item.id]=item.name;
+    });
+
+});
+  
+
     this.id = this.$route.params.id;
     PostService.get(this.id)
       .then((response) => {
@@ -162,8 +187,9 @@ export default {
           // console.log(response.data.data.category);
           this.id = response.data.data.post.id;
           this.name = response.data.data.post.name;
-          this.image= response.data.data.post.image;
+          this.image = response.data.data.post.image;
           this.imagePreview = response.data.data.post.imageurl;
+          this.category_id = response.data.data.post.category_id;
           this.description = response.data.data.post.description;
           this.short_description = response.data.data.post.short_description;
           this.meta_title = response.data.data.post.meta_title;
@@ -193,6 +219,8 @@ export default {
         meta_keywords: "",
         order: "",
         status: "",
+        categories:"",
+        category_id:"",
       },
       id: null,
       name: null,
@@ -204,6 +232,8 @@ export default {
       meta_title: null,
       meta_description: null,
       meta_keywords: null,
+      categories:{},
+      category_id:null,
       order: null,
       status: null,
       editor: ClassicEditor,
@@ -217,13 +247,15 @@ export default {
     uploadImage(e) {
       e.preventDefault();
       this.image = e.target.files[0];
-    //   console.log(this.image.name);
+      //   console.log(this.image.name);
       this.previewFile(this.image);
     },
     previewFile(file) {
       const reader = new FileReader();
       // const preview=document.getElementById('imagePreview');
-      reader.addEventListener("load",function () {
+      reader.addEventListener(
+        "load",
+        function () {
           // preview.src = reader.result;
           this.imagePreview = reader.result;
           // console.log(reader.result);
@@ -273,6 +305,7 @@ export default {
         // formData.append("image", this.image,this.image.name);
         formData.append("image", this.image);
         formData.append("name", this.name);
+        formData.append('category_id', this.category_id);
         formData.append("description", this.description);
         formData.append("short_description", this.short_description);
         formData.append("meta_description", this.meta_description);
@@ -304,6 +337,9 @@ export default {
               }
               if (response.data.errors.short_description) {
                 this.errors.short_description = response.data.errors.short_description;
+              }
+              if (response.data.errors.category_id) {
+                this.errors.category_id = response.data.errors.category_id;
               }
               if (response.data.errors.meta_title) {
                 this.errors.meta_title = response.data.errors.meta_title;

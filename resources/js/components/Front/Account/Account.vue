@@ -19,7 +19,7 @@
                   <a :href="linkedin_url" class="card-link text-primary"  target="_blank">{{linkedin_name}}</a>
               </div>
           </div>
-            
+
           </div>
         </div>
       </div>

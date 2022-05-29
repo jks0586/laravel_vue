@@ -10,6 +10,7 @@
             <div class="post-description" v-html="post.description"></div>
             <!-- {{post.user}} -->
             <div class="auth-section"><Author :user="user"/></div>
+            <div class="comment"><Comment /></div>
           </div>
         </div>
       </div>
@@ -22,10 +23,12 @@
 <script>
 import Post from "../../services/post";
 import Author from "../common/Author.vue";
+import Comment from "../Front/Comment/Index.vue";
 export default {
   name: "Postdetail",
   components: {
     Author,
+    Comment,
   },
   data() {
     return {

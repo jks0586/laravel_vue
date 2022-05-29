@@ -82,6 +82,9 @@
 export default {
   name: "AdminSidebar",
   setup() {},
+  beforeCreate(){
+      
+  },    
   methods:{
       logout(){
           localStorage.clear();

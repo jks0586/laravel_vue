@@ -1,21 +1,25 @@
 import { createWebHistory, createRouter } from 'vue-router'
 import middlewarePipeline  from './middleware/middlewarePipeline';
 import authuser from './middleware/authuser';
+import routecheck from './middleware/routecheck';
 import admin from './middleware/admin';
 const routes = [
     {
         path: '',
-        name: '',
+        name: 'home',
+        
         component: () => import('./components/Front/Home')
     },
     {
         path: '/',
-        name: '/',
+        name: 'home',
+        
         component: () => import('./components/Front/Home')
     },
     {
         path: '/home',
         name: 'home',
+        
         component: () => import('./components/Front/Home')
     },
     {

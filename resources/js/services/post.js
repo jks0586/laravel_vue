@@ -9,8 +9,11 @@ class PostService{
     index(url){
         return http.get(url);
     }
-    posts(){
-        return http.get('/posts');
+    posts(cat_id){
+        let data={'cat_id':cat_id};
+        // console.log(data);
+        return http.post('/posts',data);
+        
     }
     frontposts(){
         return http.get('/front/posts');

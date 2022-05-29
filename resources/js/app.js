@@ -21,7 +21,7 @@ app.use(CKEditor);
 app.use(router);
 
 app.use(BootstrapVue3);
-
+// console.log(router.currentRoute.name);
 router.beforeEach((to, from, next) => {
     if(to.name==undefined || to.name=='home'){
         if(localStorage.getItem('isAdmin')){
@@ -33,8 +33,10 @@ router.beforeEach((to, from, next) => {
         next();
     }
 });
-
-if(localStorage.getItem('isAdmin')){
+// if(router.currentRoute.name===undefined){  
+//     // window.location='/admin/dashbaord'; 
+// }
+if(localStorage.getItem('isAdmin')){  
     app.component('AdminSidebar',AdminSidebar)
     app.mount('#letscms_admin')
 } else {

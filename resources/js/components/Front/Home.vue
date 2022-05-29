@@ -36,9 +36,15 @@ export default {
   methods:{
    
   },
+  beforeCreate(){
+    //   alert('yuyuyu');
+  },
+  beforeMount(){
+    //   alert('hhhhj');
+  },
   mounted() {
     //  alert(localStorage.getItem('isAdmin'));
-
+    
     Post.posts()
       .then((response) => {
         console.log(response);
