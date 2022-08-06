@@ -21,7 +21,7 @@ class CommentController extends Controller
     public function index(Request $request)
     {
         // $comments = Comment::paginate($request->input('per_page'))->withQueryString();
-        $comments = Comment::with(['user', 'post'])->paginate($request->input('per_page'))->withQueryString();
+        $comments = Comment::select('*')->with(['user', 'post'])->paginate($request->input('per_page'))->withQueryString();
         return response($comments);
     }
 

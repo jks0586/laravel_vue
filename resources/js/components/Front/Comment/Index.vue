@@ -3,8 +3,8 @@
     <div class="col-md-12" v-if="comments">
       <div class="label">Comments</div>
       <div class="">
-        <li v-for="comment in comments">
-          {{ comment.post }}
+        <li v-for="(comment, key) in comments" :key="key">
+          {{ comment.commentbody }} {{ comment.user.email }}
         </li>
       </div>
     </div>
