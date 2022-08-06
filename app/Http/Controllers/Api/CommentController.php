@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\Category;
 use App\Models\Comment;
 use Illuminate\Support\Str;
+
 class CommentController extends Controller
 {
     /**
@@ -19,9 +20,9 @@ class CommentController extends Controller
 
     public function index(Request $request)
     {
-        $categories = Category::paginate($request->input('per_page'))->withQueryString();
-        return response($categories);
-       
+        // $comments = Comment::paginate($request->input('per_page'))->withQueryString();
+        $comments = Comment::with(['user', 'post'])->paginate($request->input('per_page'))->withQueryString();
+        return response($comments);
     }
 
     public function list(Request $request)
@@ -78,7 +79,7 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id,Request $request)
+    public function show($id, Request $request)
     {
         //
         // print_r($request->user()->id); die;
@@ -99,7 +100,8 @@ class CommentController extends Controller
         //
     }
 
-    public function commentupdate(Request $request){
+    public function commentupdate(Request $request)
+    {
         $validator = Validator::make($request->all(), [
             'commentbody' => 'required',
             'post_id' => 'required',
@@ -112,16 +114,15 @@ class CommentController extends Controller
         }
 
         $comment = Comment::find($request->id);
-        $comment->commentbody=$request->commentbody;
-        $comment->post_id=$request->post_id;
-        $comment->user_id=$request->user_id;
-        $comment->parent=$request->parent;
-       
+        $comment->commentbody = $request->commentbody;
+        $comment->post_id = $request->post_id;
+        $comment->user_id = $request->user_id;
+        $comment->parent = $request->parent;
+
 
         $comment->save();
         $this->data['comment'] = $comment;
         return $this->response();
-
     }
 
     /**
@@ -131,7 +132,7 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
 
         $validator = Validator::make($request->all(), [
@@ -146,15 +147,13 @@ class CommentController extends Controller
         }
 
         $comment = Comment::find($id);
-        $comment->name=$request->name;
-        $comment->post_id=$request->post_id;
-        $comment->user_id=$request->user_id;
-        $comment->parent=$request->parent;
-        $comment->status=$request->status;
+        $comment->name = $request->name;
+        $comment->post_id = $request->post_id;
+        $comment->user_id = $request->user_id;
+        $comment->parent = $request->parent;
+        $comment->status = $request->status;
         $comment->save();
         $this->data['comment'] = $comment;
         return $this->response();
     }
-
-    
 }

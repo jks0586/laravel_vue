@@ -1,25 +1,22 @@
 import { createWebHistory, createRouter } from 'vue-router'
-import middlewarePipeline  from './middleware/middlewarePipeline';
-import authuser from './middleware/authuser';
-import routecheck from './middleware/routecheck';
-import admin from './middleware/admin';
+import middlewarePipeline from './middleware/middlewarePipeline'
+import authuser from './middleware/authuser'
+import routecheck from './middleware/routecheck'
+import admin from './middleware/admin'
 const routes = [
     {
         path: '',
         name: 'home',
-        
         component: () => import('./components/Front/Home')
     },
     {
         path: '/',
         name: 'home',
-        
         component: () => import('./components/Front/Home')
     },
     {
         path: '/home',
         name: 'home',
-        
         component: () => import('./components/Front/Home')
     },
     {
@@ -45,13 +42,13 @@ const routes = [
     {
         path: '/account',
         name: 'account',
-        meta:{ middleware: [authuser] },
+        meta: { middleware: [authuser] },
         component: () => import('./components/Front/Account/Account')
     },
     {
         path: '/account/edit',
         name: 'account/edit',
-        meta:{ middleware: [authuser] },
+        meta: { middleware: [authuser] },
         component: () => import('./components/Front/Account/Edit')
     },
     {
@@ -67,87 +64,87 @@ const routes = [
     {
         path: '/admin',
         name: '/admin',
-        meta:{ middleware: [authuser,admin] },
+        meta: { middleware: [authuser, admin] },
         component: () => import('./components/Admin/Dashbaord')
     },
     {
         path: '/admin/dashboard',
         name: '/admin/dashboard',
-        meta:{ middleware: [authuser,admin] },
+        meta: { middleware: [authuser, admin] },
         component: () => import('./components/Admin/Dashbaord')
     },
     {
         path: '/admin/category',
         name: '/admin/category',
-        meta:{ middleware: [authuser,admin] },
+        meta: { middleware: [authuser, admin] },
         component: () => import('./components/Admin/Category/Index')
     },
     {
         path: '/admin/category/add',
         name: '/admin/category/add',
-        meta:{ middleware: [authuser,admin] },
+        meta: { middleware: [authuser, admin] },
         component: () => import('./components/Admin/Category/Add')
     },
     {
         path: '/admin/category/edit/:id',
         name: '/admin/category/edit',
-        meta:{ middleware: [authuser,admin] },
+        meta: { middleware: [authuser, admin] },
         component: () => import('./components/Admin/Category/Edit')
     },
     {
         path: '/admin/post',
         name: '/admin/post',
-        meta:{ middleware: [authuser,admin] },
+        meta: { middleware: [authuser, admin] },
         component: () => import('./components/Admin/Post/Index')
     },
     {
         path: '/admin/post/add',
         name: '/admin/post/add',
-        meta:{ middleware: [authuser,admin] },
+        meta: { middleware: [authuser, admin] },
         component: () => import('./components/Admin/Post/Add')
     },
     {
         path: '/admin/post/edit/:id',
         name: '/admin/post/edit',
-        meta:{ middleware: [authuser,admin] },
+        meta: { middleware: [authuser, admin] },
         component: () => import('./components/Admin/Post/Edit')
     },
     {
         path: '/admin/users',
         name: '/admin/users',
-        meta:{ middleware: [authuser,admin] },
+        meta: { middleware: [authuser, admin] },
         component: () => import('./components/Admin/Users/Index')
     },
     {
         path: '/admin/users/add',
         name: '/admin/users/add',
-        meta:{ middleware: [authuser,admin] },
+        meta: { middleware: [authuser, admin] },
         component: () => import('./components/Admin/Users/Add')
     },
     {
         path: '/admin/users/edit/:id',
         name: '/admin/users/edit',
-        meta:{ middleware: [admin],authuser },
+        meta: { middleware: [admin], authuser },
         component: () => import('./components/Admin/Users/Edit')
-    },
+    }
 ]
 const router = createRouter({
     history: createWebHistory(),
     routes
 })
 router.beforeEach((to, from, next) => {
-    const middleware = to.meta.middleware;
-    const context = { to, from, next };
+    const middleware = to.meta.middleware
+    const context = { to, from, next }
     // console.log(to);
     // Check if no middlware on route
     if (!middleware) {
-      return next();
+        return next()
     }
 
     middleware[0]({
         ...context,
-        next: middlewarePipeline(context, middleware, 1),
-     });
-  });
+        next: middlewarePipeline(context, middleware, 1)
+    })
+})
 
 export default router

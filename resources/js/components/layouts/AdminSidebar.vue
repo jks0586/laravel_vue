@@ -6,12 +6,12 @@
       <div class="logo-box">
         <router-link to="/admin/dashboard" class="logo">
           <span class="logo-lg">
-            <img src="/assets/images/logo-light.png" alt="" height="22" />
+            <img src="/assets/admin/images/logo-light.png" alt="" height="22" />
             <!-- <span class="logo-lg-text-light">Highdmin</span> -->
           </span>
           <span class="logo-sm">
             <!-- <span class="logo-sm-text-dark">H</span> -->
-            <img src="/assets/images/logo-sm.png" alt="" height="24" />
+            <img src="/assets/admin/images/logo-sm.png" alt="" height="24" />
           </span>
         </router-link>
       </div>
@@ -19,7 +19,7 @@
       <!-- User box -->
       <div class="user-box">
         <img
-          src="/assets/images/askjitendra_logo.png"
+          src="/assets/admin/images/askjitendra_logo.png"
           alt="user-img"
           title="Jitendra Sharma"
           class="rounded-circle img-thumbnail avatar-md"
@@ -62,7 +62,7 @@
             </router-link>
           </li>
 
-           <li>
+          <li>
             <router-link to="#" v-on:click="logout">
               <i class="fe-users"></i>
               <span> Logout </span>
@@ -82,14 +82,12 @@
 export default {
   name: "AdminSidebar",
   setup() {},
-  beforeCreate(){
-      
-  },    
-  methods:{
-      logout(){
-          localStorage.clear();
-          this.$route.push('/login');
-      }
-  }
+  beforeCreate() {},
+  methods: {
+    logout() {
+      localStorage.clear();
+      this.$route.push("/login");
+    },
+  },
 };
 </script>

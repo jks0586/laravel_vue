@@ -23085,7 +23085,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     logout: function logout() {
       localStorage.clear();
-      this.$route.push('/login');
+      this.$route.push("/login");
     }
   }
 });
@@ -23361,7 +23361,7 @@ var _hoisted_3 = {
 var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "logo-lg"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: "/assets/images/logo-light.png",
+  src: "/assets/admin/images/logo-light.png",
   alt: "",
   height: "22"
 }), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"logo-lg-text-light\">Highdmin</span> ")], -1
@@ -23371,7 +23371,7 @@ var _hoisted_4 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "logo-sm"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <span class=\"logo-sm-text-dark\">H</span> "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: "/assets/images/logo-sm.png",
+  src: "/assets/admin/images/logo-sm.png",
   alt: "",
   height: "24"
 })], -1
@@ -23383,7 +23383,7 @@ var _hoisted_6 = {
 };
 
 var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("img", {
-  src: "/assets/images/askjitendra_logo.png",
+  src: "/assets/admin/images/askjitendra_logo.png",
   alt: "user-img",
   title: "Jitendra Sharma",
   "class": "rounded-circle img-thumbnail avatar-md"

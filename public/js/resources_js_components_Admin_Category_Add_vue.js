@@ -129,7 +129,7 @@ __webpack_require__.r(__webpack_exports__);
         // }
         var formData = new FormData();
         formData.append("image", this.image);
-        formData.append('name', this.name);
+        formData.append("name", this.name);
         formData.append("description", this.description);
         formData.append("meta_description", this.meta_description);
         formData.append("meta_keywords", this.meta_keywords);
@@ -172,7 +172,7 @@ __webpack_require__.r(__webpack_exports__);
               timer: 1500
             });
 
-            _this.$router.push('/admin/category');
+            _this.$router.push("/admin/category");
           }
         })["catch"](function (error) {
           console.log(error);

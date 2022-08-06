@@ -45,7 +45,5 @@ Route::group(['as' => 'api.'], function () {
 
         Route::resource('comment', Api\CommentController::class);
         Route::post('/comment/commentupdate', 'Api\CommentController@commentupdate')->name('api.comment.commentupdate');
-
     });
-
 });

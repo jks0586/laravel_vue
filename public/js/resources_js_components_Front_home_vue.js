@@ -245,7 +245,7 @@ var PostService = /*#__PURE__*/function () {
     key: "posts",
     value: function posts(cat_id) {
       var data = {
-        'cat_id': cat_id
+        cat_id: cat_id
       }; // console.log(data);
 
       return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post('/posts', data);

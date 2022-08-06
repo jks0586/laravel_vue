@@ -235,7 +235,7 @@ export default {
 
         const formData = new FormData();
         formData.append("image", this.image);
-        formData.append('name', this.name);
+        formData.append("name", this.name);
         formData.append("description", this.description);
         formData.append("meta_description", this.meta_description);
         formData.append("meta_keywords", this.meta_keywords);
@@ -275,7 +275,7 @@ export default {
                 timer: 1500,
               });
 
-              this.$router.push('/admin/category');
+              this.$router.push("/admin/category");
             }
           })
           .catch((error) => {
