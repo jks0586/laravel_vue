@@ -42,7 +42,10 @@ __webpack_require__.r(__webpack_exports__);
 
     _services_category__WEBPACK_IMPORTED_MODULE_2__["default"].list().then(function (response) {
       response.data.map(function (item, index) {
-        _this.categories[item.id] = item.name;
+        _this.categories.push({
+          'id': item.id,
+          'value': item.name
+        });
       });
     });
     this.id = this.$route.params.id;
@@ -61,6 +64,7 @@ __webpack_require__.r(__webpack_exports__);
         _this.meta_keywords = response.data.data.post.meta_keywords;
         _this.order = response.data.data.post.order;
         _this.status = response.data.data.post.status;
+        _this.user_id = response.data.data.post.user_id;
         var imgset = document.getElementById("imagePreview");
         imgset.setAttribute("src", _this.imagePreview);
         imgset.setAttribute("width", 50);
@@ -95,10 +99,11 @@ __webpack_require__.r(__webpack_exports__);
       meta_title: null,
       meta_description: null,
       meta_keywords: null,
-      categories: {},
-      category_id: null,
+      categories: [],
+      category_id: 0,
       order: null,
       status: null,
+      user_id: 0,
       editor: (_ckeditor_ckeditor5_build_classic__WEBPACK_IMPORTED_MODULE_0___default()),
       editorData: "<p>Content of the editor.</p>",
       editorConfig: {// The configuration of the editor.
@@ -106,6 +111,11 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    selectCategory: function selectCategory(e) {
+      e.preventDefault(); // alert(e.target.value);
+
+      this.category_id = e.target.value;
+    },
     uploadImage: function uploadImage(e) {
       e.preventDefault();
       this.image = e.target.files[0]; //   console.log(this.image.name);
@@ -176,12 +186,17 @@ __webpack_require__.r(__webpack_exports__);
         formData.append("meta_keywords", this.meta_keywords);
         formData.append("meta_title", this.meta_title);
         formData.append("status", this.status);
-        formData.append("order", this.order); // formData.append("_method", "PUT");
+        formData.append("order", this.order);
+
+        if (localStorage.getItem("user")) {
+          formData.append("user_id", JSON.parse(localStorage.getItem("user")).id);
+        } // formData.append("_method", "PUT");
         // const data = {};
         // for (let [key, val] of formData.entries()) {
         //   Object.assign(data, { [key]: val });
         // }
         // console.log(data);
+
 
         _services_post__WEBPACK_IMPORTED_MODULE_1__["default"].update(formData).then(function (response) {
           console.log(response);
@@ -354,7 +369,7 @@ var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 /* HOISTED */
 );
 
-var _hoisted_24 = ["value"];
+var _hoisted_24 = ["value", "selected"];
 var _hoisted_25 = {
   key: 0,
   "class": "alert alert-danger"
@@ -439,6 +454,8 @@ var _hoisted_43 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 );
 
 function render(_ctx, _cache, $props, $setup, $data, $options) {
+  var _this = this;
+
   var _component_admin_sidebar = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("admin-sidebar");
 
   var _component_ckeditor = (0,vue__WEBPACK_IMPORTED_MODULE_0__.resolveComponent)("ckeditor");
@@ -499,26 +516,27 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
   /* PROPS */
   , ["editor", "modelValue"]), $data.errors.short_description ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.short_description), 1
   /* TEXT */
-  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
+  )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("select", {
     "class": "form-control",
     name: "category_id",
     id: "category_id",
-    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
-      return $data.category_id = $event;
+    onChange: _cache[4] || (_cache[4] = function () {
+      return $options.selectCategory && $options.selectCategory.apply($options, arguments);
     }),
     placeholder: "--Choose Category --"
   }, [_hoisted_23, ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)(this.categories, function (cat, index) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("option", {
-      value: index,
-      key: cat
-    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(cat), 9
+      key: cat,
+      value: cat.id,
+      selected: cat.id == _this.category_id ? true : false
+    }, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(cat.value), 9
     /* TEXT, PROPS */
     , _hoisted_24);
   }), 128
   /* KEYED_FRAGMENT */
-  ))], 512
-  /* NEED_PATCH */
-  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelSelect, $data.category_id]]), $data.errors.categories ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.categories), 1
+  ))], 32
+  /* HYDRATE_EVENTS */
+  ), $data.errors.categories ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_25, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.errors.categories), 1
   /* TEXT */
   )) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [_hoisted_27, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
     type: "text",

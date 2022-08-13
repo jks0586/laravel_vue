@@ -69,11 +69,11 @@
                     class="form-control"
                     name="category_id"
                     id="category_id"
-                    v-model="category_id"
+                    @change="selectCategory"
                     placeholder="--Choose Category --"
                   >
                   <option value='0'>-- Choose Category --</option>
-                  <option v-for="cat in this.categories" :key="cat">{{ cat }}</option>
+                  <option v-for="cat in this.categories" :key="cat" :value="cat.id">{{ cat.value }}</option>
                   </select>
                   <div class="alert alert-danger" v-if="errors.categories">
                     {{ errors.categories }}
@@ -188,8 +188,8 @@ export default {
       id: null,
       name: null,
       image: null,
-      category_id: null,
-      categories: {},
+      category_id: 0,
+      categories: [],
       imagePreview: null,
       description: null,
       short_description: null,
@@ -198,6 +198,7 @@ export default {
       meta_keywords: null,
       order: null,
       status: null,
+      user_id:0,
       editor: ClassicEditor,
       editorData: "<p>Content of the editor.</p>",
       editorConfig: {
@@ -208,12 +209,21 @@ export default {
   created(){
        CategoryService.list().then((response)=>{
           response.data.map((item, index) => {
-              this.categories[item.id]=item.name;
-          });
-
+              this.categories.push({'id':item.id,'value':item.name});
+          });         
       });
   },
+  mounted(){
+   
+
+  },
   methods: {
+
+    selectCategory(e){
+      e.preventDefault();
+      // alert(e.target.value);
+      this.category_id=e.target.value;
+    },
     uploadImage(e) {
       e.preventDefault();
       this.image = e.target.files[0];
@@ -290,6 +300,11 @@ export default {
         formData.append("status", this.status);
         formData.append("order", this.order);
         formData.append("top", this.top);
+
+      if (localStorage.getItem("user")) {
+        this.user_id=JSON.parse(localStorage.getItem("user")).id;
+        formData.append("user_id", this.user_id);          
+      }
 
         PostService.create(formData)
           .then((response) => {

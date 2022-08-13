@@ -69,11 +69,11 @@
                     class="form-control"
                     name="category_id"
                     id="category_id"
-                    v-model="category_id"
+                   @change="selectCategory"
                     placeholder="--Choose Category --"
                   >
                     <option value="0">-- Choose Category --</option>
-                    <option :value="index" v-for="(cat,index) in this.categories" :key="cat">{{ cat }}</option>
+                    <option  v-for="(cat,index) in this.categories" :key="cat" :value="cat.id" :selected="cat.id==this.category_id?true : false">{{ cat.value }}</option>
                   </select>
                   <div class="alert alert-danger" v-if="errors.categories">
                     {{ errors.categories }}
@@ -174,7 +174,7 @@ export default {
   
 CategoryService.list().then((response)=>{
     response.data.map((item, index) => {
-        this.categories[item.id]=item.name;
+        this.categories.push({'id':item.id,'value':item.name});
     });
 
 });
@@ -197,6 +197,7 @@ CategoryService.list().then((response)=>{
           this.meta_keywords = response.data.data.post.meta_keywords;
           this.order = response.data.data.post.order;
           this.status = response.data.data.post.status;
+          this.user_id = response.data.data.post.user_id;
           let imgset = document.getElementById("imagePreview");
           imgset.setAttribute("src", this.imagePreview);
           imgset.setAttribute("width", 50);
@@ -232,10 +233,11 @@ CategoryService.list().then((response)=>{
       meta_title: null,
       meta_description: null,
       meta_keywords: null,
-      categories:{},
-      category_id:null,
+      categories:[],
+      category_id:0,
       order: null,
       status: null,
+      user_id:0,
       editor: ClassicEditor,
       editorData: "<p>Content of the editor.</p>",
       editorConfig: {
@@ -244,6 +246,11 @@ CategoryService.list().then((response)=>{
     };
   },
   methods: {
+    selectCategory(e){
+      e.preventDefault();
+      // alert(e.target.value);
+      this.category_id=e.target.value;
+    },
     uploadImage(e) {
       e.preventDefault();
       this.image = e.target.files[0];
@@ -313,6 +320,12 @@ CategoryService.list().then((response)=>{
         formData.append("meta_title", this.meta_title);
         formData.append("status", this.status);
         formData.append("order", this.order);
+
+        if (localStorage.getItem("user")) {
+          formData.append("user_id", JSON.parse(localStorage.getItem("user")).id);
+          
+        }
+
         // formData.append("_method", "PUT");
 
         // const data = {};

@@ -30,7 +30,8 @@ class PostController extends Controller
     public function posts(Request $request){
         
         $posts = Post::with('user')->where('category_id',$request->cat_id)->paginate($request->input('per_page'))->withQueryString();
-        
+        // print_r($posts);
+        // die;
         return response($posts);
     }
 
@@ -91,6 +92,7 @@ class PostController extends Controller
         } else {
             $image='';
         }
+        // echo $request->category_id; die;
 
         $post = Post::create([
             'name' => $request->name,
@@ -103,7 +105,7 @@ class PostController extends Controller
             'status' => $request->status,
             'order' => $request->order,
             'category_id' => $request->category_id,
-            'user_id' => $request->user()->id,
+            'user_id' => $request->user_id,
         ]);
 
         $this->data['post'] = $post;

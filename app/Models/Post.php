@@ -10,7 +10,7 @@ class Post extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description','short_description', 'image','meta_title','meta_keywords','meta_description','order','status'
+        'name', 'description','short_description','user_id', 'image','meta_title','meta_keywords','meta_description','order','status','category_id'
     ];
 
     protected $appends = ['action','imageurl','imagehtml'];
