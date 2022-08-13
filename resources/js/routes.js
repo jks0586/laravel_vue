@@ -7,11 +7,13 @@ const routes = [
     {
         path: '',
         name: 'home',
+        redirect: '/home',
         component: () => import('./components/Front/Home')
     },
     {
         path: '/',
         name: 'home',
+        redirect: '/home',
         component: () => import('./components/Front/Home')
     },
     {

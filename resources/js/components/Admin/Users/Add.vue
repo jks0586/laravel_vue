@@ -117,7 +117,7 @@ export default {
       avatar: null,
       email: null,
       password: null,
-      is_admin: null,
+      is_admin: 0,
     };
   },
   created() {},
