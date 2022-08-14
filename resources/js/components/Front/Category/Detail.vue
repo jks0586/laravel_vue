@@ -5,6 +5,7 @@
       <div class="col-md-12">
         <div class="card">
           <div class="card-body">
+            
             <h3>
               <a :href="`/post/${post.id}/${post.name.toLowerCase()}`">{{ post.name }}</a>
             </h3>

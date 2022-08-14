@@ -47,14 +47,17 @@ export default {
 
 <template>
   <div>
+    
     <div class="author-section col-md-12">
-      <div class="author-avatar"><img :src="user.avatarurl" class="avatar" /></div>
+      <div class="author-avatar"><img :src="user.avatarurl" v-if="user.avatarurl" class="avatar" /></div>
       <div class="author-description">
-        <strong class="authorname">{{ user.name }}</strong>
-        <p class="text-ad-2" v-html="user.about"></p>
-        <a class="social-link" :href="user.github_url" target="_blank">{{ user.github_name }}</a>
-        <a class="social-link" :href="user.linkedin_url" target="_blank">{{ user.linkedin_name }}</a>
-        <a class="social-link" :href="user.twitter_url" target="_blank">{{ user.twitter_name }}</a>
+        <strong class="authorname" v-if="user.name">{{ user.name }}</strong>
+        <p class="text-ad-2" v-html="user.about" v-if="user.about"></p>
+        <div class="">
+        <a class="social-link" :href="user.github_url" v-if="user.github_url" target="_blank">{{ user.github_name }}</a>
+        <a class="social-link" :href="user.linkedin_url" v-if="user.linkedin_url" target="_blank">{{ user.linkedin_name }}</a>
+        <a class="social-link" :href="user.twitter_url" v-if="user.twitter_url" target="_blank">{{ user.twitter_name }}</a>
+        </div>
       </div>
     </div>
   </div>

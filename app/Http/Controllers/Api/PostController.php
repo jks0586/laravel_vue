@@ -98,7 +98,7 @@ class PostController extends Controller
             'name' => $request->name,
             'image' => $image,
             'description' => $request->description,
-            'short_description' => $request->short_description,
+            'short_description' => $request->short_description,-
             'meta_title' => $request->meta_title,
             'meta_keywords' => $request->meta_keywords,
             'meta_description' => $request->meta_description,
