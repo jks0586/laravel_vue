@@ -106,7 +106,7 @@ __webpack_require__.r(__webpack_exports__);
               });
             } else if (response.data.data.user.is_admin === 0) {
               _this.$router.push({
-                path: "/"
+                path: "/home"
               });
             }
           }

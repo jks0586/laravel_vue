@@ -122,7 +122,7 @@ export default {
              if(response.data.data.user.is_admin===1){
                  this.$router.push({ path: "/admin/dashboard/" });
               } else if(response.data.data.user.is_admin===0){
-                  this.$router.push({ path: "/" });
+                  this.$router.push({ path: "/home" });
               }
 
             }
