@@ -16,25 +16,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "Home",
+  name: "CategoryDetail",
   components: {
     Author: _common_Author_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   },
   data: function data() {
     return {
+      cat_id: null,
       posts: []
     };
   },
   methods: {},
-  beforeCreate: function beforeCreate() {//   alert('yuyuyu');
-  },
-  beforeMount: function beforeMount() {//   alert('hhhhj');
-  },
   mounted: function mounted() {
     var _this = this;
 
-    //  alert(localStorage.getItem('isAdmin'));
-    _services_post__WEBPACK_IMPORTED_MODULE_0__["default"].posts().then(function (response) {
+    // console.table(this.$route.params);
+    _services_post__WEBPACK_IMPORTED_MODULE_0__["default"].posts(this.$route.params.id).then(function (response) {
       console.log(response);
 
       if (response.status == 200) {
@@ -42,7 +39,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     })["catch"](function (error) {
       console.log("aaa");
-    }); // document.getElementById('login-modal').style.display='block';
+    });
   }
 });
 

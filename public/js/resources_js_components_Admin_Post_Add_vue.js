@@ -155,7 +155,6 @@ __webpack_require__.r(__webpack_exports__);
         //     meta_description: this.meta_description,
         //     meta_keywords: this.meta_keywords,
         //     status: this.status,
-        //     top: this.top,
         // }
         var formData = new FormData();
         formData.append("image", this.image);
@@ -168,7 +167,7 @@ __webpack_require__.r(__webpack_exports__);
         formData.append("meta_title", this.meta_title);
         formData.append("status", this.status);
         formData.append("order", this.order);
-        formData.append("top", this.top);
+        console.log(formData);
 
         if (localStorage.getItem("user")) {
           this.user_id = JSON.parse(localStorage.getItem("user")).id;

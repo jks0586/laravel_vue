@@ -24257,14 +24257,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var routes = [{
   path: '',
-  name: 'home',
+  name: 'empty',
   redirect: '/home',
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_components_Front_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Front/Home */ "./resources/js/components/Front/Home.vue"));
   }
 }, {
   path: '/',
-  name: 'home',
+  name: 'slash',
   redirect: '/home',
   component: function component() {
     return __webpack_require__.e(/*! import() */ "resources_js_components_Front_Home_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/Front/Home */ "./resources/js/components/Front/Home.vue"));

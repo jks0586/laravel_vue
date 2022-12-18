@@ -6,13 +6,13 @@ import admin from './middleware/admin'
 const routes = [
     {
         path: '',
-        name: 'home',
+        name: 'empty',
         redirect: '/home',
         component: () => import('./components/Front/Home')
     },
     {
         path: '/',
-        name: 'home',
+        name: 'slash',
         redirect: '/home',
         component: () => import('./components/Front/Home')
     },

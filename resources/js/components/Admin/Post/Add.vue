@@ -274,7 +274,6 @@ export default {
       if (!this.meta_keywords) {
         this.errors.meta_keywords = "Meta Keywords is Required.";
       }
-
       if (this.errors.length == 0) {
 
         //    var data={
@@ -285,7 +284,6 @@ export default {
         //     meta_description: this.meta_description,
         //     meta_keywords: this.meta_keywords,
         //     status: this.status,
-        //     top: this.top,
         // }
 
         const formData = new FormData();
@@ -299,7 +297,9 @@ export default {
         formData.append("meta_title", this.meta_title);
         formData.append("status", this.status);
         formData.append("order", this.order);
-        formData.append("top", this.top);
+        
+      
+        console.log(formData);
 
       if (localStorage.getItem("user")) {
         this.user_id=JSON.parse(localStorage.getItem("user")).id;

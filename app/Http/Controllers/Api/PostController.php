@@ -60,7 +60,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-
+        // echo '<pre>';print_r($request->all());echo '</pre>'; die;
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'description' => 'required',
@@ -93,12 +93,12 @@ class PostController extends Controller
             $image='';
         }
         // echo $request->category_id; die;
-
+        // print_r($request->all()); die;
         $post = Post::create([
             'name' => $request->name,
             'image' => $image,
             'description' => $request->description,
-            'short_description' => $request->short_description,-
+            'short_description' => $request->short_description,
             'meta_title' => $request->meta_title,
             'meta_keywords' => $request->meta_keywords,
             'meta_description' => $request->meta_description,
